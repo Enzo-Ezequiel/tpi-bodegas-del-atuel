@@ -37,7 +37,7 @@ Notación de atributos: **clave primaria**, *clave foránea*, `(U)` único, `(D)
 
 | Entidad | Atributos | Notas |
 |---|---|---|
-| CLIENTE | **id_cliente**, nombre_razon_social, tipo_documento, nro_documento, direccion, *id_localidad*, fecha_alta, tipo_cliente, descuento | Supertipo. (tipo_documento, nro_documento) `(U)` |
+| CLIENTE | **id_cliente**, nombre_razon_social, tipo_documento, nro_documento, direccion, *id_localidad*, fecha_alta, descuento | Supertipo. En el esquema relacional se agrega `tipo_cliente` como discriminador de la jerarquía. (tipo_documento, nro_documento) `(U)` |
 | SOCIO | ***id_cliente*** | Subtipo sin atributos propios |
 | DISTRIBUIDOR | ***id_cliente***, zona_cobertura, nro_habilitacion | Subtipo |
 | EXPORTADOR | ***id_cliente***, pais_destino | Subtipo |
@@ -90,7 +90,7 @@ Las cardinalidades (mín, máx) escritas junto a una entidad indican con cuánta
 |---|---|---|---|
 | composicion | VINO (0,N) — CEPA (1,N) | porcentaje | COMPOSICION (**cod_vino, id_cepa**). Suma 100 por vino (RN-05) |
 | recomienda | VINO (0,N) — MARIDAJE (1,N) | — | VINO_MARIDAJE (**cod_vino, id_maridaje**) |
-| renglon de venta | COMPROBANTE (0,N) — VINO (1,N) | cantidad, precio_unitario, descuento, subtotal `(D)` | RENGLON_COMPROBANTE (**nro_comprobante, cod_vino**) |
+| renglon de venta | COMPROBANTE (0,N) — VINO (1,N) | cantidad, precio_unitario, descuento `(D)`, subtotal `(D)` | RENGLON_COMPROBANTE (**nro_comprobante, cod_vino**) |
 | cubre | TRANSPORTISTA (0,N) — LOCALIDAD (0,N) | — | TRANSPORTISTA_LOCALIDAD (**cod_transporte, id_localidad**) |
 | renglon de ingreso | INGRESO (0,N) — VINO (1,N) | cantidad | RENGLON_INGRESO (**cod_ingreso, cod_vino**) |
 | renglon de transferencia | TRANSFERENCIA (0,N) — VINO (1,N) | cantidad | RENGLON_TRANSFERENCIA (**nro_solicitud, cod_vino**) |

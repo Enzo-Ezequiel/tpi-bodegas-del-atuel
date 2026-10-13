@@ -72,14 +72,13 @@
 <line x1="1762" y1="2770" x2="1900" y2="2645" stroke="#000"/>
 <line x1="1762" y1="2804" x2="1900" y2="2645" stroke="#000"/>
 <line x1="1762" y1="2838" x2="1900" y2="2645" stroke="#000"/>
-<line x1="3000" y1="2526" x2="2888" y2="2645" stroke="#000"/>
-<line x1="3000" y1="2560" x2="2888" y2="2645" stroke="#000"/>
-<line x1="3000" y1="2594" x2="2888" y2="2645" stroke="#000"/>
-<line x1="3000" y1="2628" x2="2888" y2="2645" stroke="#000"/>
-<line x1="3000" y1="2662" x2="2888" y2="2645" stroke="#000"/>
-<line x1="3000" y1="2696" x2="2888" y2="2645" stroke="#000"/>
-<line x1="3000" y1="2730" x2="2888" y2="2645" stroke="#000"/>
-<line x1="3000" y1="2764" x2="2888" y2="2645" stroke="#000"/>
+<line x1="3000" y1="2543" x2="2888" y2="2645" stroke="#000"/>
+<line x1="3000" y1="2577" x2="2888" y2="2645" stroke="#000"/>
+<line x1="3000" y1="2611" x2="2888" y2="2645" stroke="#000"/>
+<line x1="3000" y1="2645" x2="2888" y2="2645" stroke="#000"/>
+<line x1="3000" y1="2679" x2="2888" y2="2645" stroke="#000"/>
+<line x1="3000" y1="2713" x2="2888" y2="2645" stroke="#000"/>
+<line x1="3000" y1="2747" x2="2888" y2="2645" stroke="#000"/>
 <line x1="2816" y1="3300" x2="2888" y2="3239" stroke="#000"/>
 <line x1="2960" y1="3300" x2="2888" y2="3239" stroke="#000"/>
 <line x1="3520" y1="3239" x2="3408" y2="3239" stroke="#000"/>
@@ -341,22 +340,20 @@
 <text x="1706" y="2808" text-anchor="middle" font-size="10">codigo_postal</text>
 <ellipse cx="1690" cy="2838" rx="72" ry="14.0" fill="#fff" stroke="#000"/>
 <text x="1690" y="2842" text-anchor="middle" font-size="10">encargado_regional</text>
-<ellipse cx="3046" cy="2526" rx="46" ry="14.0" fill="#fff" stroke="#000"/>
-<text x="3046" y="2530" text-anchor="middle" font-size="10" text-decoration="underline">id_cliente</text>
-<ellipse cx="3076" cy="2560" rx="76" ry="14.0" fill="#fff" stroke="#000"/>
-<text x="3076" y="2564" text-anchor="middle" font-size="10">nombre_razon_social</text>
-<ellipse cx="3059" cy="2594" rx="59" ry="14.0" fill="#fff" stroke="#000"/>
-<text x="3059" y="2598" text-anchor="middle" font-size="10">tipo_documento</text>
-<ellipse cx="3056" cy="2628" rx="56" ry="14.0" fill="#fff" stroke="#000"/>
-<text x="3056" y="2632" text-anchor="middle" font-size="10">nro_documento</text>
-<ellipse cx="3043" cy="2662" rx="43" ry="14.0" fill="#fff" stroke="#000"/>
-<text x="3043" y="2666" text-anchor="middle" font-size="10">direccion</text>
-<ellipse cx="3046" cy="2696" rx="46" ry="14.0" fill="#fff" stroke="#000"/>
-<text x="3046" y="2700" text-anchor="middle" font-size="10">fecha_alta</text>
-<ellipse cx="3053" cy="2730" rx="53" ry="14.0" fill="#fff" stroke="#000"/>
-<text x="3053" y="2734" text-anchor="middle" font-size="10">tipo_cliente</text>
-<ellipse cx="3043" cy="2764" rx="43" ry="14.0" fill="#fff" stroke="#000"/>
-<text x="3043" y="2768" text-anchor="middle" font-size="10">descuento</text>
+<ellipse cx="3046" cy="2543" rx="46" ry="14.0" fill="#fff" stroke="#000"/>
+<text x="3046" y="2546" text-anchor="middle" font-size="10" text-decoration="underline">id_cliente</text>
+<ellipse cx="3076" cy="2577" rx="76" ry="14.0" fill="#fff" stroke="#000"/>
+<text x="3076" y="2580" text-anchor="middle" font-size="10">nombre_razon_social</text>
+<ellipse cx="3059" cy="2611" rx="59" ry="14.0" fill="#fff" stroke="#000"/>
+<text x="3059" y="2614" text-anchor="middle" font-size="10">tipo_documento</text>
+<ellipse cx="3056" cy="2645" rx="56" ry="14.0" fill="#fff" stroke="#000"/>
+<text x="3056" y="2648" text-anchor="middle" font-size="10">nro_documento</text>
+<ellipse cx="3043" cy="2679" rx="43" ry="14.0" fill="#fff" stroke="#000"/>
+<text x="3043" y="2682" text-anchor="middle" font-size="10">direccion</text>
+<ellipse cx="3046" cy="2713" rx="46" ry="14.0" fill="#fff" stroke="#000"/>
+<text x="3046" y="2716" text-anchor="middle" font-size="10">fecha_alta</text>
+<ellipse cx="3043" cy="2747" rx="43" ry="14.0" fill="#fff" stroke="#000"/>
+<text x="3043" y="2750" text-anchor="middle" font-size="10">descuento</text>
 <ellipse cx="2816" cy="3314" rx="59" ry="14.0" fill="#fff" stroke="#000"/>
 <text x="2816" y="3318" text-anchor="middle" font-size="10">zona_cobertura</text>
 <ellipse cx="2960" cy="3314" rx="66" ry="14.0" fill="#fff" stroke="#000"/>
@@ -381,7 +378,7 @@
 <text x="2585" y="1489" text-anchor="middle" font-size="10">cantidad</text>
 <ellipse cx="2606" cy="1519" rx="62" ry="14.0" fill="#fff" stroke="#000"/>
 <text x="2606" y="1523" text-anchor="middle" font-size="10">precio_unitario</text>
-<ellipse cx="2586" cy="1553" rx="43" ry="14.0" fill="#fff" stroke="#000"/>
+<ellipse cx="2586" cy="1553" rx="43" ry="14.0" fill="#fff" stroke="#000" stroke-dasharray="4,3"/>
 <text x="2586" y="1557" text-anchor="middle" font-size="10">descuento</text>
 <ellipse cx="2585" cy="1587" rx="42" ry="14.0" fill="#fff" stroke="#000" stroke-dasharray="4,3"/>
 <text x="2585" y="1591" text-anchor="middle" font-size="10">subtotal</text>
