@@ -98,7 +98,7 @@ Comprobantes de venta emitidos en las salas
 | id_cliente | integer | No | FK → cliente | Cliente que compra |
 | id_sala | integer | No | FK → sala_venta | Sala donde se realizo la venta |
 | subtotal | numeric(14,2) | No |  | Suma de cantidad por precio unitario de los renglones, sin descuento (derivado, RN-08) |
-| descuento | numeric(14,2) | No |  | Importe total descontado (derivado, RN-08) |
+| descuento | numeric(14,2) | No |  | Suma de los descuentos de los renglones (derivado, RN-08) |
 | total | numeric(14,2) | No |  | Subtotal menos descuento (derivado, RN-08) |
 
 ## departamento
@@ -234,8 +234,8 @@ Vinos incluidos en cada comprobante
 | cod_vino | integer | No | PK; FK → vino | Vino vendido |
 | cantidad | integer | No |  | Cantidad de botellas |
 | precio_unitario | numeric(10,2) | No |  | Precio del vino al momento de la venta |
-| descuento | porcentaje_dom | No |  | Porcentaje de descuento aplicado segun el cliente |
-| subtotal | numeric(14,2) | No |  | Importe del renglon con el descuento aplicado (derivado) |
+| descuento | numeric(14,2) | No |  | Importe descontado en el renglon segun el descuento del cliente (derivado) |
+| subtotal | numeric(14,2) | No |  | Cantidad por precio unitario menos descuento (derivado) |
 
 ## renglon_ingreso
 

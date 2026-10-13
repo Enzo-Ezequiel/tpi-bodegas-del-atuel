@@ -32,7 +32,7 @@ CREATE TYPE dia_semana AS ENUM
 CREATE DOMAIN cuit_dom AS CHAR(11)
     CHECK (VALUE ~ '^[0-9]{11}$');
 
--- Porcentaje entre 0 y 100 con dos decimales (cortes y descuentos)
+-- Porcentaje entre 0 y 100 con dos decimales (cortes y descuento del cliente)
 CREATE DOMAIN porcentaje_dom AS NUMERIC(5,2)
     CHECK (VALUE BETWEEN 0 AND 100);
 
@@ -268,14 +268,14 @@ CREATE TABLE comprobante (
 );
 
 -- precio_unitario: precio del vino al momento de la venta
--- descuento: porcentaje aplicado segun el cliente
--- subtotal: cantidad * precio_unitario * (1 - descuento / 100)
+-- descuento: importe descontado en el renglon segun el descuento del cliente
+-- subtotal: cantidad * precio_unitario - descuento
 CREATE TABLE renglon_comprobante (
     nro_comprobante  INTEGER        NOT NULL,
     cod_vino         INTEGER        NOT NULL,
     cantidad         INTEGER        NOT NULL,
     precio_unitario  NUMERIC(10,2)  NOT NULL,
-    descuento        porcentaje_dom NOT NULL,
+    descuento        NUMERIC(14,2)  NOT NULL,
     subtotal         NUMERIC(14,2)  NOT NULL,
     CONSTRAINT pk_renglon_comprobante PRIMARY KEY (nro_comprobante, cod_vino),
     CONSTRAINT fk_renglon_comprobante_cabecera FOREIGN KEY (nro_comprobante)
@@ -519,7 +519,7 @@ COMMENT ON COLUMN comprobante.fecha IS 'Fecha de la venta';
 COMMENT ON COLUMN comprobante.id_cliente IS 'Cliente que compra';
 COMMENT ON COLUMN comprobante.id_sala IS 'Sala donde se realizo la venta';
 COMMENT ON COLUMN comprobante.subtotal IS 'Suma de cantidad por precio unitario de los renglones, sin descuento (derivado, RN-08)';
-COMMENT ON COLUMN comprobante.descuento IS 'Importe total descontado (derivado, RN-08)';
+COMMENT ON COLUMN comprobante.descuento IS 'Suma de los descuentos de los renglones (derivado, RN-08)';
 COMMENT ON COLUMN comprobante.total IS 'Subtotal menos descuento (derivado, RN-08)';
 
 COMMENT ON TABLE renglon_comprobante IS 'Vinos incluidos en cada comprobante';
@@ -527,8 +527,8 @@ COMMENT ON COLUMN renglon_comprobante.nro_comprobante IS 'Comprobante al que per
 COMMENT ON COLUMN renglon_comprobante.cod_vino IS 'Vino vendido';
 COMMENT ON COLUMN renglon_comprobante.cantidad IS 'Cantidad de botellas';
 COMMENT ON COLUMN renglon_comprobante.precio_unitario IS 'Precio del vino al momento de la venta';
-COMMENT ON COLUMN renglon_comprobante.descuento IS 'Porcentaje de descuento aplicado segun el cliente';
-COMMENT ON COLUMN renglon_comprobante.subtotal IS 'Importe del renglon con el descuento aplicado (derivado)';
+COMMENT ON COLUMN renglon_comprobante.descuento IS 'Importe descontado en el renglon segun el descuento del cliente (derivado)';
+COMMENT ON COLUMN renglon_comprobante.subtotal IS 'Cantidad por precio unitario menos descuento (derivado)';
 
 COMMENT ON TABLE transportista IS 'Empresas de transporte que trasladan los ingresos';
 COMMENT ON COLUMN transportista.cod_transporte IS 'Codigo de transporte';
