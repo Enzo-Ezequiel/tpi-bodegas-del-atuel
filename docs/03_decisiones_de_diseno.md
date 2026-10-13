@@ -41,7 +41,7 @@ Las claves subrogadas usan `GENERATED ALWAYS AS IDENTITY`: las genera la base y 
 ## 3. Tipos de datos
 
 - **Dinero:** `NUMERIC(10,2)` para precios, `NUMERIC(12,2)` para salarios y `NUMERIC(14,2)` para importes de comprobantes. Nunca `FLOAT`, porque no representa decimales en forma exacta y los totales no cerrarían.
-- **Porcentajes:** dominio `porcentaje_dom` (`NUMERIC(5,2)` entre 0 y 100), usado en cortes y descuentos.
+- **Porcentajes:** dominio `porcentaje_dom` (`NUMERIC(5,2)` entre 0 y 100), usado en los cortes y en el descuento del cliente.
 - **CUIT:** dominio `cuit_dom` (`CHAR(11)` con solo dígitos). Es texto y no número porque no se opera con él y puede empezar con cero.
 - **Fechas:** `DATE` donde solo importa el día (cosecha, venta, ingreso). `TIMESTAMPTZ` en la auditoría de precio, donde importa el momento exacto.
 - **Valores de lista cerrada:** tipos `ENUM` (`estado_documento`, `tipo_vino`, `tipo_cepa`, `tipo_cliente`, `tipo_documento`, `dia_semana`). No son texto libre y ocupan menos que un `VARCHAR`.
@@ -52,14 +52,14 @@ Las claves subrogadas usan `GENERATED ALWAYS AS IDENTITY`: las genera la base y 
 
 | Atributo | ¿Se almacena? | Cómo se garantiza la consistencia |
 |---|---|---|
-| `renglon_comprobante.subtotal` | Sí | Lo calcula un trigger al insertar el renglón |
+| `renglon_comprobante.descuento` y `subtotal` | Sí | Los calcula un trigger al insertar el renglón |
 | `comprobante.subtotal`, `descuento`, `total` | Sí | Función `fn_total_comprobante` y trigger AFTER sobre los renglones (RN-08) |
-| `renglon_comprobante.precio_unitario` y `descuento` | Sí | No son derivados: son una copia histórica del precio y del descuento al momento de la venta |
+| `renglon_comprobante.precio_unitario` | Sí | No es derivado: es una copia histórica del precio al momento de la venta |
 | Antigüedad del empleado | No | Función `fn_antiguedad_anios` |
 | Stock total de un vino | No | Vista que suma depósito y salas |
 | Rendimiento kg/ha de una parcela | No | Se calcula en la consulta S10 |
 
-Se almacenan solo los importes de la venta, porque el enunciado los pide como datos del comprobante y deben reflejar lo que se cobró aunque después cambien los precios.
+Se almacenan solo los importes de la venta, porque el enunciado los pide como datos del comprobante y deben reflejar lo que se cobró aunque después cambien los precios o el descuento del cliente. Es una excepción deliberada a la 3FN; está analizada en la sección 2.5 del esquema relacional.
 
 ## 5. Acciones referenciales
 
@@ -88,7 +88,7 @@ Consecuencia a tener en cuenta: borrar una finca borra sus parcelas, pero si alg
 
 - **Encargado regional:** columna de `localidad` con el nombre del responsable. El enunciado no le da más datos, y como clave foránea a `empleado` obligaría a que pertenezca a una sola sala, cuando está afectado a todas las de la localidad.
 - **Descuento del cliente:** columna en `cliente` con valor inicial según el tipo. No es fijo por tipo porque el enunciado (consulta U6) cambia el de algunos exportadores.
-- **Descuento en la venta:** en el renglón se guarda el **porcentaje** aplicado; en el comprobante, el **importe** total descontado.
+- **Descuento en la venta:** tanto en el renglón como en el comprobante se guarda el **importe** descontado. El porcentaje solo está en `cliente`. Guardar el porcentaje en cada renglón sería una dependencia parcial, porque es el mismo para todo el comprobante.
 - **Depósito central:** es único, así que `stock_deposito` tiene una fila por vino y no existe una tabla de depósitos.
 - **Vinos de un ingreso:** deben ser de la bodega de origen del ingreso. Regla agregada por el grupo, se valida con trigger en la etapa 2.
 - **Restricciones en `001_esquema.sql`:** incluye tipos, dominios, NOT NULL, claves primarias y claves foráneas con sus acciones. UNIQUE, CHECK y DEFAULT se agregan en `002_constraints.sql`.
