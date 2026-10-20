@@ -20,6 +20,5 @@ venv/
 Thumbs.db
 .DS_Store
 
-# Material de trabajo que no va al repositorio
+# Material de la catedra: no va al repositorio
 Documentacion de la catedra/
-PLAN.md
