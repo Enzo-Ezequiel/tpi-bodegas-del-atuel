@@ -391,7 +391,7 @@ CREATE TABLE auditoria_precio (
 );
 
 -- -----------------------------------------------------------------------------
--- Descripciones (fuente del diccionario de datos)
+-- Descripciones de tablas y columnas (se ven en pgAdmin y con \d+ en psql)
 -- -----------------------------------------------------------------------------
 
 COMMENT ON TABLE localidad IS 'Localidades donde hay salas, clientes o cobertura de transporte';
