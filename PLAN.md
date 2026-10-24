@@ -85,7 +85,7 @@ Apuntes: *Reglas de integridad*, *Funciones, Procedimientos y Triggers*, *Vistas
 
 - [x] `002_constraints.sql`: los UNIQUE, CHECK y DEFAULT que pide el enunciado (4 UNIQUE, 11 CHECK, 3 DEFAULT). Son una línea cada uno.
 - [x] `003_funciones.sql`: 4 funciones cortas — descuento según tipo de cliente, stock de un vino en una sala, total de un comprobante, antigüedad de un empleado.
-- [ ] `004_procedimientos.sql`: 2 procedimientos — procesar un ingreso (suma al depósito) y procesar una transferencia (resta del depósito y suma a la sala), validando el estado y el stock con mensajes claros.
+- [x] `004_procedimientos.sql`: 2 procedimientos — procesar un ingreso (suma al depósito) y procesar una transferencia (resta del depósito y suma a la sala), validando el estado y el stock con mensajes claros.
 - [x] `005_triggers.sql`: 8 triggers con BEFORE y AFTER, que son los que vimos:
   1. Validar el stock y completar precio, descuento y subtotal del renglón (BEFORE INSERT en renglón de comprobante).
   2. Descontar el stock y actualizar los importes del comprobante (AFTER INSERT en renglón).
