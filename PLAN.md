@@ -83,17 +83,18 @@ Apuntes: *Reglas de integridad*, *Funciones, Procedimientos y Triggers*, *Vistas
 
 **[Imprescindible]**
 
-- [ ] `002_constraints.sql`: los UNIQUE, CHECK y DEFAULT que pide el enunciado (4 UNIQUE, 8 CHECK, 3 DEFAULT). Son una línea cada uno.
-- [ ] `003_funciones.sql`: 4 funciones cortas — descuento según tipo de cliente, stock de un vino en una sala, total de un comprobante, antigüedad de un empleado.
+- [x] `002_constraints.sql`: los UNIQUE, CHECK y DEFAULT que pide el enunciado (4 UNIQUE, 11 CHECK, 3 DEFAULT). Son una línea cada uno.
+- [x] `003_funciones.sql`: 4 funciones cortas — descuento según tipo de cliente, stock de un vino en una sala, total de un comprobante, antigüedad de un empleado.
 - [ ] `004_procedimientos.sql`: 2 procedimientos — procesar un ingreso (suma al depósito) y procesar una transferencia (resta del depósito y suma a la sala), validando el estado y el stock con mensajes claros.
-- [ ] `005_triggers.sql`: 6 triggers con BEFORE y AFTER, que son los que vimos:
-  1. Validar stock antes de vender (BEFORE INSERT en renglón de comprobante).
-  2. Calcular el renglón, descontar stock y actualizar los totales del comprobante (AFTER INSERT en renglón).
+- [x] `005_triggers.sql`: 8 triggers con BEFORE y AFTER, que son los que vimos:
+  1. Validar el stock y completar precio, descuento y subtotal del renglón (BEFORE INSERT en renglón de comprobante).
+  2. Descontar el stock y actualizar los importes del comprobante (AFTER INSERT en renglón).
   3. Controlar los cambios de estado de ingresos y transferencias (que no retrocedan).
-  4. No permitir tocar renglones de un documento que ya no está en confección.
+  4. No permitir tocar renglones de un documento que ya no está en confección (deja pasar el borrado en cascada).
   5. Poner la fecha actual en la transferencia y no dejar cambiarla.
   6. Registrar los cambios de precio en la auditoría (AFTER UPDATE en vino).
-- [ ] Porcentajes de corte que suman 100: **versión simple** con un trigger que no deja que la suma pase de 100, más una vista que muestra los vinos con la composición incompleta.
+  7. Porcentajes de corte: **versión simple**, no deja que la suma pase de 100 (la vista de vinos incompletos va en `006`).
+  8. Completar el descuento inicial del cliente según su tipo.
 - [ ] `006_vistas.sql`: 3 vistas — stock total por vino, ventas mensuales por sala, documentos pendientes.
 - [ ] `007_roles.sql`: 3 roles — dueño, API (lectura/escritura) y reportes (solo lectura).
 - [ ] `db/tests/db_tests.sql`: un caso que funciona y uno que falla por cada regla RN-01 a RN-15, con un comentario del error esperado.
@@ -104,7 +105,7 @@ Apuntes: *Reglas de integridad*, *Funciones, Procedimientos y Triggers*, *Vistas
 - [ ] Constraint trigger diferido para la suma de 100 (lo que pide literalmente el enunciado).
 - [ ] Bloqueos `FOR UPDATE` en los procedimientos y la demostración de concurrencia con dos sesiones.
 
-**Decisiones propuestas** (las más simples; confirmar):
+**Decisiones tomadas** (las más simples; los límites están en `docs/03_decisiones_de_diseno.md`, sección 7):
 
 1. Un comprobante puede quedar sin renglones en la base; se documenta como límite conocido.
 2. Un vino con movimientos o con cambios de precio no se puede borrar (ya está así con RESTRICT).

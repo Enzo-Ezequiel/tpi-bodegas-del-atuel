@@ -103,11 +103,11 @@ Total: **30 tablas** = 22 de la sección 1 + 7 relaciones N:M + STOCK_DEPOSITO.
 ## 3. Decisiones tomadas sobre el relevamiento
 
 1. **Subtipo SOCIO: lleva tabla propia**, aunque solo tenga la clave. El apunte de la cátedra (*Modelo Relacional*, conversión de relaciones IS-A, opción c) indica «crear una relación por cada conjunto de entidades», y así los tres subtipos se tratan igual.
-2. **Los vinos de un ingreso deben ser de la bodega que lo origina.** El enunciado no lo dice, pero un ingreso tiene una sola bodega de origen. Se valida con un trigger en la etapa 2 (regla propia del grupo, RN-16).
+2. **Los vinos de un ingreso y su bodega de origen.** Evaluamos exigir que los vinos de un ingreso sean de la bodega que lo origina (sería una regla propia del grupo). Lo descartamos: el enunciado no lo pide y agregaba un trigger más sin cubrir ninguna regla RN.
 3. **Trazabilidad lote → vino:** no hay relación directa en el escenario. Se infiere por cepa del vino + bodega elaboradora + campaña igual a la añada.
 4. **Día de cierre:** tipo enumerado con los siete días.
 
-## 4. Puntos todavía abiertos
+## 4. Puntos que quedaron abiertos en la etapa 1 (cerrados en la etapa 2)
 
-1. **Mínimos (1,N) que una FK no garantiza.** «Un lote tiene al menos un análisis» y «un comprobante tiene al menos un renglón» no se pueden exigir con constraints simples. La composición sí queda cubierta por el trigger diferido de RN-05. Hay que decidir si los otros se exigen o se documentan como límite conocido.
-2. **Auditoría de precio y borrado de vinos.** Por ahora la FK es RESTRICT: un vino que alguna vez cambió de precio no se puede borrar, para no perder el historial. Afecta al endpoint `DELETE /vinos/{cod}`.
+1. **Mínimos (1,N) que una FK no garantiza.** «Un lote tiene al menos un análisis» y «un comprobante tiene al menos un renglón» no se pueden exigir con constraints simples. Se documentan como límite conocido (`03_decisiones_de_diseno.md`, sección 7).
+2. **Auditoría de precio y borrado de vinos.** Se mantiene la FK con RESTRICT: un vino que alguna vez cambió de precio no se puede borrar, para no perder el historial. Afecta al endpoint `DELETE /vinos/{cod}`.
