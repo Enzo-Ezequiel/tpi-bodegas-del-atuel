@@ -95,8 +95,8 @@ Apuntes: *Reglas de integridad*, *Funciones, Procedimientos y Triggers*, *Vistas
   6. Registrar los cambios de precio en la auditoría (AFTER UPDATE en vino).
   7. Porcentajes de corte: **versión simple**, no deja que la suma pase de 100 (la vista de vinos incompletos va en `006`).
   8. Completar el descuento inicial del cliente según su tipo.
-- [ ] `006_vistas.sql`: 3 vistas — stock total por vino, ventas mensuales por sala, documentos pendientes.
-- [ ] `007_roles.sql`: 3 roles — dueño, API (lectura/escritura) y reportes (solo lectura).
+- [x] `006_vistas.sql`: 3 vistas — stock total por vino, ventas mensuales por sala, documentos pendientes.
+- [x] `007_roles.sql`: 3 roles — dueño, API (lectura/escritura) y reportes (solo lectura).
 - [ ] `db/tests/db_tests.sql`: un caso que funciona y uno que falla por cada regla RN-01 a RN-15, con un comentario del error esperado.
 - [ ] `docs/trazabilidad.md`: tabla «regla → dónde se resuelve → caso de prueba».
 

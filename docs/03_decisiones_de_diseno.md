@@ -92,6 +92,9 @@ Consecuencia a tener en cuenta: borrar una finca borra sus parcelas, pero si alg
 - **Depósito central:** es único, así que `stock_deposito` tiene una fila por vino y no existe una tabla de depósitos.
 - **Vinos de un ingreso:** evaluamos exigir que sean de la bodega de origen del ingreso y lo descartamos, porque el enunciado no lo pide.
 - **Restricciones en `001_esquema.sql`:** incluye tipos, dominios, NOT NULL, claves primarias y claves foráneas con sus acciones. UNIQUE, CHECK y DEFAULT están en `002_constraints.sql`.
+- **Vistas comunes, no materializadas:** una vista materializada guarda el resultado y queda desactualizada hasta que se ejecuta `REFRESH MATERIALIZED VIEW`; una venta nueva no aparecería en el tablero. Con el volumen del trabajo, la vista común responde bien y siempre muestra los datos actuales.
+- **Roles:** `bodegas_admin` (todos los permisos), `bodegas_api` (lectura y escritura de datos, sin crear ni borrar tablas, y sin poder modificar ni borrar la auditoría de precios) y `bodegas_reportes` (solo lectura). El dueño técnico de las tablas es el usuario que corre las migraciones; la API nunca se conecta con él. Para que el dueño fuera `bodegas_admin` habría que correr las migraciones con ese usuario, lo que cambia el script de recreación y el Docker; lo descartamos por simplicidad.
+- **Contraseñas de los roles:** no están en el repositorio. Los roles se crean sin contraseña y se les asigna una a mano (`ALTER ROLE … PASSWORD`), que se guarda en el `.env`.
 
 ## 7. Límites conocidos
 
