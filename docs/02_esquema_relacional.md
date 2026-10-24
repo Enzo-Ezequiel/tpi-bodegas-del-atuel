@@ -137,7 +137,7 @@ Para cada relación se indican sus claves candidatas (la primera es la clave pri
 | stock_deposito | cod_vino | cod_vino → cantidad |
 | auditoria_precio | id_auditoria | id_auditoria → cod_vino, precio_anterior, precio_nuevo, fecha_hora, usuario |
 
-En las relaciones con una segunda clave candidata, esa clave también determina a todos los atributos. Se protege con UNIQUE en `002_constraints.sql`.
+En las relaciones con una segunda clave candidata, esa clave también determina a todos los atributos. En `002_constraints.sql` se declararon como UNIQUE las de `lote_uva` (es la regla RN-04), `vino`, `transportista` y `cliente`. Las de los catálogos (`localidad`, `departamento`, `cepa`, `maridaje`) no se declararon: son tablas chicas que se cargan una sola vez desde CSV. Es una decisión de alcance, no de diseño; agregarlas sería una línea cada una.
 
 ### 2.3 Segunda forma normal
 
@@ -193,7 +193,7 @@ Estos atributos se calculan a partir de otros, así que en sentido estricto intr
 
 El apunte de la cátedra indica que los atributos derivados en general no se almacenan. Acá el enunciado los lista como atributos del comprobante y del renglón (secciones 3.4 y 5), y además evitan recalcular 500.000 renglones en cada consulta de ventas. El riesgo de una redundancia así es que los valores queden inconsistentes; se evita porque **nunca se cargan a mano**: los escriben una función y un trigger de la base (RN-08) y las consultas de control de la etapa 3 verifican que cierren.
 
-**`lote_uva.campania`** es un caso aparte: es el año de `fecha_cosecha`, pero forma parte de la clave candidata (id_finca, nro_parcela, campania), así que es un atributo primo y no viola 3FN. Se almacena porque hace falta para el UNIQUE de «una cosecha por parcela y campaña» (RN-04), y en `002_constraints.sql` un CHECK obliga a que coincida con el año de la fecha.
+**`lote_uva.campania`** es un caso aparte: es el año de `fecha_cosecha`, pero forma parte de la clave candidata (id_finca, nro_parcela, campania), así que es un atributo primo y no viola 3FN. Se almacena porque hace falta para el UNIQUE de «una cosecha por parcela y campaña» (RN-04). Que coincida con el año de `fecha_cosecha` no se controla en la base (no hay un CHECK para eso): queda como límite conocido.
 
 ### 2.6 Otros casos que merecen explicación
 

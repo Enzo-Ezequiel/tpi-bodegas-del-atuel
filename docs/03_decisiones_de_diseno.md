@@ -91,4 +91,4 @@ Consecuencia a tener en cuenta: borrar una finca borra sus parcelas, pero si alg
 - **Descuento en la venta:** tanto en el renglón como en el comprobante se guarda el **importe** descontado. El porcentaje solo está en `cliente`. Guardar el porcentaje en cada renglón sería una dependencia parcial, porque es el mismo para todo el comprobante.
 - **Depósito central:** es único, así que `stock_deposito` tiene una fila por vino y no existe una tabla de depósitos.
 - **Vinos de un ingreso:** deben ser de la bodega de origen del ingreso. Regla agregada por el grupo, se valida con trigger en la etapa 2.
-- **Restricciones en `001_esquema.sql`:** incluye tipos, dominios, NOT NULL, claves primarias y claves foráneas con sus acciones. UNIQUE, CHECK y DEFAULT se agregan en `002_constraints.sql`.
+- **Restricciones en `001_esquema.sql`:** incluye tipos, dominios, NOT NULL, claves primarias y claves foráneas con sus acciones. UNIQUE, CHECK y DEFAULT están en `002_constraints.sql`.
