@@ -5,16 +5,43 @@ Base de Datos · UTN FRSR · 2026 · Lanzamiento 13/10/2026 · **Consulta única
 Grupo: Ezequiel Buttini, Matías Cano, Manuel Gómez.
 Stack: PostgreSQL 18 · Python + FastAPI + psycopg · HTML/CSS/JS sin framework · draw.io.
 
-## Por qué se simplificó
+## El pilar del proyecto: lo que dijo el profesor
 
-El profesor aclaró cómo se evalúa:
+Este mensaje es la base de todo el trabajo. Cualquier decisión, archivo o tarea se mide contra él; si algo del enunciado o de este plan lo contradice, gana el mensaje.
 
-- La nota sale del **oral**: cómo pensamos el modelo y si lo sabemos explicar. «Un modelo con un error que entienden y saben explicar vale más que un modelo correcto que no pueden justificar».
-- **Lo mínimo:** la base se crea desde cero, la API responde y el front se conecta. Es la condición para defender, no la nota.
-- **Lo que no vimos en clase es opcional**, por ejemplo transacciones.
-- Todo lo que entreguemos lo tenemos que poder explicar, aunque hayamos usado IA.
+> **Qué se evalúa: cómo lo pensaron**
+>
+> No vamos a mirar si su solución es idéntica a otra ni si cada detalle está perfecto. Lo que se evalúa, en el oral, es cómo plantearon y pensaron el modelo:
+>
+> - Cómo identificaron las entidades y qué las identifica (claves). Por qué algo es una tabla propia y no una columna de otra.
+> - Cómo definieron las relaciones y sus cardinalidades. Qué es 1:N, qué es N:M, cuándo hace falta una tabla intermedia y qué atributos viven en ella.
+> - Cómo llegaron a la normalización. Qué dependencias detectaron, qué redundancias evitaron y cómo justifican las que decidieron conservar.
+> - Qué decisiones de diseño tomaron y qué alternativas descartaron. Por ejemplo, qué cosas se guardan y cuáles se calculan, o cómo representaron los distintos tipos de cliente.
+> - Cómo el modelo respalda las reglas del negocio. Qué regla se resuelve con una clave, una restricción o un trigger, y por qué ahí.
+> - La teoría que sostiene todo eso: dependencias funcionales, formas normales, claves candidatas, integridad referencial.
+>
+> Un modelo con un error que entienden y saben explicar vale más que un modelo correcto que no pueden justificar.
+>
+> **Lo mínimo que tiene que cumplirse**
+>
+> El trabajo tiene que estar razonablemente bien y funcionando (la base se crea desde cero, la API responde, el front se conecta). Es la condición para poder defenderlo, no el objeto de la nota. Y todo lo que entreguen tiene que ser comprensible para ustedes: se les va a pedir que expliquen cualquier parte, incluso si usaron material externo o herramientas de IA.
+>
+> **Por qué les decimos todo esto**
+>
+> Para este trabajo hay una sola clase de consulta, el 03/11. Por eso queremos que sepan desde ahora que no tienen que preocuparse si no todo sale a la perfección: no se espera que esté impecable, se espera que lo hayan pensado y puedan explicarlo.
+>
+> Recuerden que los temas que no hemos visto como por ejemplo transacciones son opcionales.
 
-Entonces el criterio pasa a ser: **lo justo de cada etapa, hecho con lo que vimos en clase, y con su «por qué» escrito en pocas líneas.** Nada de super producción.
+### Filtro para cada decisión
+
+Antes de agregar algo al repo, tiene que pasar estas cuatro preguntas:
+
+1. **¿Cualquiera de los tres lo explica en 2 o 3 frases?** Si no, se simplifica o no entra.
+2. **¿Lo vimos en clase?** Si no, es [Opcional].
+3. **¿Hace falta para que funcione (base, API, front) o para cumplir una regla RN?** Si no, afuera.
+4. **¿Quedó escrito el porqué y la alternativa que descartamos?** En un comentario del SQL o en `docs/`.
+
+Entonces el criterio es: **lo justo de cada etapa, hecho con lo que vimos en clase, y con su «por qué» escrito en pocas líneas.** Nada de super producción.
 
 ## Cómo trabajamos
 
