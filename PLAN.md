@@ -5,16 +5,43 @@ Base de Datos · UTN FRSR · 2026 · Lanzamiento 13/10/2026 · **Consulta única
 Grupo: Ezequiel Buttini, Matías Cano, Manuel Gómez.
 Stack: PostgreSQL 18 · Python + FastAPI + psycopg · HTML/CSS/JS sin framework · draw.io.
 
-## Por qué se simplificó
+## El pilar del proyecto: lo que dijo el profesor
 
-El profesor aclaró cómo se evalúa:
+Este mensaje es la base de todo el trabajo. Cualquier decisión, archivo o tarea se mide contra él; si algo del enunciado o de este plan lo contradice, gana el mensaje.
 
-- La nota sale del **oral**: cómo pensamos el modelo y si lo sabemos explicar. «Un modelo con un error que entienden y saben explicar vale más que un modelo correcto que no pueden justificar».
-- **Lo mínimo:** la base se crea desde cero, la API responde y el front se conecta. Es la condición para defender, no la nota.
-- **Lo que no vimos en clase es opcional**, por ejemplo transacciones.
-- Todo lo que entreguemos lo tenemos que poder explicar, aunque hayamos usado IA.
+> **Qué se evalúa: cómo lo pensaron**
+>
+> No vamos a mirar si su solución es idéntica a otra ni si cada detalle está perfecto. Lo que se evalúa, en el oral, es cómo plantearon y pensaron el modelo:
+>
+> - Cómo identificaron las entidades y qué las identifica (claves). Por qué algo es una tabla propia y no una columna de otra.
+> - Cómo definieron las relaciones y sus cardinalidades. Qué es 1:N, qué es N:M, cuándo hace falta una tabla intermedia y qué atributos viven en ella.
+> - Cómo llegaron a la normalización. Qué dependencias detectaron, qué redundancias evitaron y cómo justifican las que decidieron conservar.
+> - Qué decisiones de diseño tomaron y qué alternativas descartaron. Por ejemplo, qué cosas se guardan y cuáles se calculan, o cómo representaron los distintos tipos de cliente.
+> - Cómo el modelo respalda las reglas del negocio. Qué regla se resuelve con una clave, una restricción o un trigger, y por qué ahí.
+> - La teoría que sostiene todo eso: dependencias funcionales, formas normales, claves candidatas, integridad referencial.
+>
+> Un modelo con un error que entienden y saben explicar vale más que un modelo correcto que no pueden justificar.
+>
+> **Lo mínimo que tiene que cumplirse**
+>
+> El trabajo tiene que estar razonablemente bien y funcionando (la base se crea desde cero, la API responde, el front se conecta). Es la condición para poder defenderlo, no el objeto de la nota. Y todo lo que entreguen tiene que ser comprensible para ustedes: se les va a pedir que expliquen cualquier parte, incluso si usaron material externo o herramientas de IA.
+>
+> **Por qué les decimos todo esto**
+>
+> Para este trabajo hay una sola clase de consulta, el 03/11. Por eso queremos que sepan desde ahora que no tienen que preocuparse si no todo sale a la perfección: no se espera que esté impecable, se espera que lo hayan pensado y puedan explicarlo.
+>
+> Recuerden que los temas que no hemos visto como por ejemplo transacciones son opcionales.
 
-Entonces el criterio pasa a ser: **lo justo de cada etapa, hecho con lo que vimos en clase, y con su «por qué» escrito en pocas líneas.** Nada de super producción.
+### Filtro para cada decisión
+
+Antes de agregar algo al repo, tiene que pasar estas cuatro preguntas:
+
+1. **¿Cualquiera de los tres lo explica en 2 o 3 frases?** Si no, se simplifica o no entra.
+2. **¿Lo vimos en clase?** Si no, es [Opcional].
+3. **¿Hace falta para que funcione (base, API, front) o para cumplir una regla RN?** Si no, afuera.
+4. **¿Quedó escrito el porqué y la alternativa que descartamos?** En un comentario del SQL o en `docs/`.
+
+Entonces el criterio es: **lo justo de cada etapa, hecho con lo que vimos en clase, y con su «por qué» escrito en pocas líneas.** Nada de super producción.
 
 ## Cómo trabajamos
 
@@ -56,19 +83,20 @@ Apuntes: *Reglas de integridad*, *Funciones, Procedimientos y Triggers*, *Vistas
 
 **[Imprescindible]**
 
-- [ ] `002_constraints.sql`: los UNIQUE, CHECK y DEFAULT que pide el enunciado (4 UNIQUE, 8 CHECK, 3 DEFAULT). Son una línea cada uno.
-- [ ] `003_funciones.sql`: 4 funciones cortas — descuento según tipo de cliente, stock de un vino en una sala, total de un comprobante, antigüedad de un empleado.
-- [ ] `004_procedimientos.sql`: 2 procedimientos — procesar un ingreso (suma al depósito) y procesar una transferencia (resta del depósito y suma a la sala), validando el estado y el stock con mensajes claros.
-- [ ] `005_triggers.sql`: 6 triggers con BEFORE y AFTER, que son los que vimos:
-  1. Validar stock antes de vender (BEFORE INSERT en renglón de comprobante).
-  2. Calcular el renglón, descontar stock y actualizar los totales del comprobante (AFTER INSERT en renglón).
+- [x] `002_constraints.sql`: los UNIQUE, CHECK y DEFAULT que pide el enunciado (4 UNIQUE, 11 CHECK, 3 DEFAULT). Son una línea cada uno.
+- [x] `003_funciones.sql`: 4 funciones cortas — descuento según tipo de cliente, stock de un vino en una sala, total de un comprobante, antigüedad de un empleado.
+- [x] `004_procedimientos.sql`: 2 procedimientos — procesar un ingreso (suma al depósito) y procesar una transferencia (resta del depósito y suma a la sala), validando el estado y el stock con mensajes claros.
+- [x] `005_triggers.sql`: 8 triggers con BEFORE y AFTER, que son los que vimos:
+  1. Validar el stock y completar precio, descuento y subtotal del renglón (BEFORE INSERT en renglón de comprobante).
+  2. Descontar el stock y actualizar los importes del comprobante (AFTER INSERT en renglón).
   3. Controlar los cambios de estado de ingresos y transferencias (que no retrocedan).
-  4. No permitir tocar renglones de un documento que ya no está en confección.
+  4. No permitir tocar renglones de un documento que ya no está en confección (deja pasar el borrado en cascada).
   5. Poner la fecha actual en la transferencia y no dejar cambiarla.
   6. Registrar los cambios de precio en la auditoría (AFTER UPDATE en vino).
-- [ ] Porcentajes de corte que suman 100: **versión simple** con un trigger que no deja que la suma pase de 100, más una vista que muestra los vinos con la composición incompleta.
-- [ ] `006_vistas.sql`: 3 vistas — stock total por vino, ventas mensuales por sala, documentos pendientes.
-- [ ] `007_roles.sql`: 3 roles — dueño, API (lectura/escritura) y reportes (solo lectura).
+  7. Porcentajes de corte: **versión simple**, no deja que la suma pase de 100 (la vista de vinos incompletos va en `006`).
+  8. Completar el descuento inicial del cliente según su tipo.
+- [x] `006_vistas.sql`: 3 vistas — stock total por vino, ventas mensuales por sala, documentos pendientes.
+- [x] `007_roles.sql`: 3 roles — dueño, API (lectura/escritura) y reportes (solo lectura).
 - [ ] `db/tests/db_tests.sql`: un caso que funciona y uno que falla por cada regla RN-01 a RN-15, con un comentario del error esperado.
 - [ ] `docs/trazabilidad.md`: tabla «regla → dónde se resuelve → caso de prueba».
 
@@ -77,7 +105,7 @@ Apuntes: *Reglas de integridad*, *Funciones, Procedimientos y Triggers*, *Vistas
 - [ ] Constraint trigger diferido para la suma de 100 (lo que pide literalmente el enunciado).
 - [ ] Bloqueos `FOR UPDATE` en los procedimientos y la demostración de concurrencia con dos sesiones.
 
-**Decisiones propuestas** (las más simples; confirmar):
+**Decisiones tomadas** (las más simples; los límites están en `docs/03_decisiones_de_diseno.md`, sección 7):
 
 1. Un comprobante puede quedar sin renglones en la base; se documenta como límite conocido.
 2. Un vino con movimientos o con cambios de precio no se puede borrar (ya está así con RESTRICT).

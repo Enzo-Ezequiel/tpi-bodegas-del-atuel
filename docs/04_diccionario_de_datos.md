@@ -7,7 +7,7 @@ Referencias:
 - **Obligatorio:** «Sí» significa que la columna es `NOT NULL`.
 - **PK:** clave primaria. **FK → tabla:** clave foránea hacia esa tabla.
 - **Autogenerado:** el valor lo asigna la base (`GENERATED ALWAYS AS IDENTITY`).
-- Las restricciones UNIQUE, CHECK y DEFAULT se agregan en la etapa 2.
+- Las restricciones UNIQUE, CHECK y DEFAULT están en `db/migrations/002_constraints.sql` y se listan al final, en «Restricciones adicionales».
 
 ## Tipos propios
 
@@ -373,3 +373,41 @@ Historial de cambios de precio de los vinos (RN-13)
 | `precio_nuevo` | `NUMERIC(10,2)` | Sí |  | Precio después del cambio |
 | `fecha_hora` | `TIMESTAMPTZ` | Sí |  | Momento del cambio |
 | `usuario` | `VARCHAR(63)` | Sí |  | Usuario de base de datos que hizo el cambio |
+
+## Restricciones adicionales
+
+Definidas en `db/migrations/002_constraints.sql`.
+
+### UNIQUE
+
+| Nombre | Tabla | Columnas | Regla |
+|---|---|---|---|
+| `uq_lote_parcela_campania` | `lote_uva` | (id_finca, nro_parcela, campania) | RN-04 |
+| `uq_vino_nombre_anada_volumen` | `vino` | (nombre, anada, volumen_ml) | Clave candidata |
+| `uq_transportista_cuit` | `transportista` | cuit | Clave candidata |
+| `uq_cliente_documento` | `cliente` | (tipo_documento, nro_documento) | Clave candidata |
+
+### CHECK
+
+| Nombre | Tabla | Condición | Regla |
+|---|---|---|---|
+| `ck_vino_precio` | `vino` | `precio > 0` | RN-01 |
+| `ck_vino_graduacion` | `vino` | `graduacion BETWEEN 5 AND 20` | RN-15 |
+| `ck_permiso_fechas` | `permiso_exportacion` | `fecha_vencimiento > fecha_emision` | RN-07 |
+| `ck_stock_sala_cantidad` | `stock_sala` | `cantidad >= 0` | RN-09 |
+| `ck_stock_deposito_cantidad` | `stock_deposito` | `cantidad >= 0` | RN-09 |
+| `ck_renglon_comprobante_cantidad` | `renglon_comprobante` | `cantidad > 0` | RN-15 |
+| `ck_renglon_ingreso_cantidad` | `renglon_ingreso` | `cantidad > 0` | RN-15 |
+| `ck_renglon_transferencia_cantidad` | `renglon_transferencia` | `cantidad > 0` | RN-15 |
+| `ck_lote_kilos` | `lote_uva` | `kilos > 0` | RN-15 |
+| `ck_finca_superficie` | `finca` | `superficie_ha > 0` | RN-15 |
+| `ck_parcela_superficie` | `parcela` | `superficie_ha > 0` | RN-15 |
+
+### DEFAULT
+
+| Columna | Valor | Regla |
+|---|---|---|
+| `ingreso.estado` | `'en_confeccion'` | RN-10 |
+| `transferencia.estado` | `'en_confeccion'` | RN-11 |
+| `cliente.fecha_alta` | `CURRENT_DATE` | |
+| `comprobante.subtotal`, `descuento`, `total` | `0` | RN-08 |

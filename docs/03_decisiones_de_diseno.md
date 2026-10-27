@@ -18,7 +18,7 @@ El apunte de la cátedra plantea tres formas de convertir una relación IS-A:
 
 - `cliente.tipo_cliente` actúa como discriminador y evita consultar tres tablas para saber el tipo.
 - `socio` no tiene atributos propios, pero lleva su tabla para tratar los tres subtipos de la misma manera, como indica la regla de la cátedra.
-- Que cada cliente tenga fila en el subtipo que corresponde a su `tipo_cliente` se controla en la etapa 2.
+- Que cada cliente tenga fila en el subtipo que corresponde a su `tipo_cliente` no lo controla la base: es un límite conocido (sección 7).
 
 ## 2. Claves naturales o subrogadas
 
@@ -90,5 +90,22 @@ Consecuencia a tener en cuenta: borrar una finca borra sus parcelas, pero si alg
 - **Descuento del cliente:** columna en `cliente` con valor inicial según el tipo. No es fijo por tipo porque el enunciado (consulta U6) cambia el de algunos exportadores.
 - **Descuento en la venta:** tanto en el renglón como en el comprobante se guarda el **importe** descontado. El porcentaje solo está en `cliente`. Guardar el porcentaje en cada renglón sería una dependencia parcial, porque es el mismo para todo el comprobante.
 - **Depósito central:** es único, así que `stock_deposito` tiene una fila por vino y no existe una tabla de depósitos.
-- **Vinos de un ingreso:** deben ser de la bodega de origen del ingreso. Regla agregada por el grupo, se valida con trigger en la etapa 2.
-- **Restricciones en `001_esquema.sql`:** incluye tipos, dominios, NOT NULL, claves primarias y claves foráneas con sus acciones. UNIQUE, CHECK y DEFAULT se agregan en `002_constraints.sql`.
+- **Vinos de un ingreso:** evaluamos exigir que sean de la bodega de origen del ingreso y lo descartamos, porque el enunciado no lo pide.
+- **Restricciones en `001_esquema.sql`:** incluye tipos, dominios, NOT NULL, claves primarias y claves foráneas con sus acciones. UNIQUE, CHECK y DEFAULT están en `002_constraints.sql`.
+- **Vistas comunes, no materializadas:** una vista materializada guarda el resultado y queda desactualizada hasta que se ejecuta `REFRESH MATERIALIZED VIEW`; una venta nueva no aparecería en el tablero. Con el volumen del trabajo, la vista común responde bien y siempre muestra los datos actuales.
+- **Roles:** `bodegas_admin` (todos los permisos), `bodegas_api` (lectura y escritura de datos, sin crear ni borrar tablas, y sin poder modificar ni borrar la auditoría de precios) y `bodegas_reportes` (solo lectura). El dueño técnico de las tablas es el usuario que corre las migraciones; la API nunca se conecta con él. Para que el dueño fuera `bodegas_admin` habría que correr las migraciones con ese usuario, lo que cambia el script de recreación y el Docker; lo descartamos por simplicidad.
+- **Contraseñas de los roles:** no están en el repositorio. Los roles se crean sin contraseña y se les asigna una a mano (`ALTER ROLE … PASSWORD`), que se guarda en el `.env`.
+
+## 7. Límites conocidos
+
+Reglas que la base **no** garantiza del todo. Las dejamos así a propósito: resolverlas exige herramientas que no vimos en clase (triggers diferidos, transacciones) o agrega trabajo sin cubrir una regla del enunciado. Las tenemos identificadas y sabemos qué haría falta para cerrarlas.
+
+| Límite | Por qué pasa | Qué haría falta | Cómo lo cubrimos hoy |
+|---|---|---|---|
+| Los porcentajes de corte de un vino pueden sumar menos de 100 (RN-05) | Mientras se cargan las cepas de a una, la suma pasa por valores intermedios; si se exige 100 en cada fila, no se puede cargar ningún vino | Verificar la suma al final de la transacción (constraint trigger diferido) | Un trigger impide pasar de 100 y una vista muestra los vinos incompletos |
+| Un cliente puede quedar sin fila en su subtipo (`socio`, `distribuidor`, `exportador`) | La fila del cliente y la del subtipo se insertan por separado | Un control al final de la transacción | La API da de alta el cliente y su subtipo juntos |
+| Un comprobante puede quedar sin renglones; un lote, sin análisis | Una FK garantiza el lado (1,1), no el mínimo de un (1,N) | Un control al final de la transacción | Se documenta |
+| Borrar o modificar un renglón de venta no devuelve el stock | Solo el alta del renglón mueve stock (trigger T2) | Triggers de UPDATE y DELETE sobre `renglon_comprobante` | Una venta emitida no se edita |
+| Un ingreso o transferencia se puede marcar `procesado` con un UPDATE a mano, sin mover el stock | El trigger de estados controla el orden, no quién hace el cambio | Permisos que solo dejen cambiar el estado desde el procedimiento | La API solo usa los procedimientos de `004` |
+| Si dos personas procesan **la misma** transferencia o ingreso al mismo tiempo, el stock se puede mover dos veces | Las dos leen el estado `terminado` antes de que la otra lo cambie; para la segunda el estado ya no cambia, así que el trigger de estados no se dispara | Bloquear la fila del documento al leerla (`SELECT … FOR UPDATE`) | Que el stock quede negativo sí está cubierto: el `CHECK cantidad >= 0` hace fallar y deshacer el segundo procesamiento |
+| `lote_uva.campania` podría no coincidir con el año de `fecha_cosecha` | No se declaró un CHECK para eso | `CHECK (campania = EXTRACT(YEAR FROM fecha_cosecha))` | La carga de datos los genera coherentes |
