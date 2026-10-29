@@ -97,8 +97,8 @@ Apuntes: *Reglas de integridad*, *Funciones, Procedimientos y Triggers*, *Vistas
   8. Completar el descuento inicial del cliente según su tipo.
 - [x] `006_vistas.sql`: 3 vistas — stock total por vino, ventas mensuales por sala, documentos pendientes.
 - [x] `007_roles.sql`: 3 roles — dueño, API (lectura/escritura) y reportes (solo lectura).
-- [ ] `db/tests/db_tests.sql`: un caso que funciona y uno que falla por cada regla RN-01 a RN-15, con un comentario del error esperado.
-- [ ] `docs/trazabilidad.md`: tabla «regla → dónde se resuelve → caso de prueba».
+- [x] `db/tests/db_tests.sql`: un caso que funciona y uno que falla por cada regla RN-01 a RN-15, con un comentario del error esperado.
+- [x] `docs/trazabilidad.md`: tabla «regla → dónde se resuelve → caso de prueba».
 
 **[Opcional] (no lo vimos)**
 
