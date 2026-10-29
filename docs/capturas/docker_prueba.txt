@@ -1,0 +1,53 @@
+Prueba del esquema en Docker - 28/10/2026
+Imagen: postgres:18 (docker compose up -d con el volumen vacio)
+
+$ docker compose logs db | grep initdb.d
+/usr/local/bin/docker-entrypoint.sh: running /docker-entrypoint-initdb.d/001_esquema.sql
+/usr/local/bin/docker-entrypoint.sh: running /docker-entrypoint-initdb.d/002_constraints.sql
+/usr/local/bin/docker-entrypoint.sh: running /docker-entrypoint-initdb.d/003_funciones.sql
+/usr/local/bin/docker-entrypoint.sh: running /docker-entrypoint-initdb.d/004_procedimientos.sql
+/usr/local/bin/docker-entrypoint.sh: running /docker-entrypoint-initdb.d/005_triggers.sql
+/usr/local/bin/docker-entrypoint.sh: running /docker-entrypoint-initdb.d/006_vistas.sql
+/usr/local/bin/docker-entrypoint.sh: running /docker-entrypoint-initdb.d/007_roles.sql
+
+$ docker compose logs db | grep -E 'ERROR|FATAL'
+(sin resultados)
+
+$ docker compose exec db psql -U postgres -d bodegas_atuel -c "\dt"
+                   List of tables
+ Schema |          Name           | Type  |  Owner   
+--------+-------------------------+-------+----------
+ public | analisis_calidad        | table | postgres
+ public | auditoria_precio        | table | postgres
+ public | bodega                  | table | postgres
+ public | cepa                    | table | postgres
+ public | cliente                 | table | postgres
+ public | composicion             | table | postgres
+ public | comprobante             | table | postgres
+ public | departamento            | table | postgres
+ public | distribuidor            | table | postgres
+ public | empleado                | table | postgres
+ public | exportador              | table | postgres
+ public | finca                   | table | postgres
+ public | ingreso                 | table | postgres
+ public | localidad               | table | postgres
+ public | lote_uva                | table | postgres
+ public | maridaje                | table | postgres
+ public | parcela                 | table | postgres
+ public | permiso_exportacion     | table | postgres
+ public | renglon_comprobante     | table | postgres
+ public | renglon_ingreso         | table | postgres
+ public | renglon_transferencia   | table | postgres
+ public | sala_venta              | table | postgres
+ public | socio                   | table | postgres
+ public | stock_deposito          | table | postgres
+ public | stock_sala              | table | postgres
+ public | transferencia           | table | postgres
+ public | transportista           | table | postgres
+ public | transportista_localidad | table | postgres
+ public | vino                    | table | postgres
+ public | vino_maridaje           | table | postgres
+(30 rows)
+
+Ademas: 4 vistas, 13 funciones, 2 procedimientos, 10 triggers y los roles bodegas_admin, bodegas_api y bodegas_reportes.
+Recreada desde cero con docker compose down -v + up -d: mismas 7 migraciones, sin errores, 30 tablas.
