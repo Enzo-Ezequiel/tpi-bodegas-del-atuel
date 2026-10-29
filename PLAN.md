@@ -73,7 +73,7 @@ Llegar con las **etapas 2 y 3 hechas y la 5 empezada**, para preguntar dudas con
 
 - [x] Repo, estructura, `.gitignore`, `scripts/recrear_bd.ps1`.
 - [x] DER, esquema relacional, normalización, decisiones de diseño, diccionario (escrito a mano en `docs/04_diccionario_de_datos.md`) y `001_esquema.sql`, probado en el PostgreSQL local.
-- [ ] **[Si da el tiempo]** Probar el esquema en Docker (ver `pendientes.md`, lo hace un compañero).
+- [x] **[Si da el tiempo]** Probar el esquema en Docker (ver `pendientes.md`, lo hizo Manuel).
 
 **No se rehace.** Lo que hay que hacer con la etapa 1 es **estudiarla**: es exactamente lo que el profesor dice que va a preguntar (ver la guía al final).
 
