@@ -54,4 +54,19 @@ Tareas abiertas que no bloquean el avance pero hay que cerrar antes de la entreg
 - La imagen es `postgres:18`, la misma versión que se usa en local.
 - Las migraciones solo se aplican la primera vez, cuando el volumen está vacío. Después de cambiar un `.sql` hay que hacer `docker compose down -v` para que se vuelvan a ejecutar.
 - A partir de la etapa 2 habrá más archivos en `db/migrations/` (002 a 008): conviene repetir la prueba al cerrar cada etapa.
-- En las etapas 6 y 7 hay que sumar la API y el front al mismo `docker-compose.yml`.
+- En las etapas 6 y 7 hay que sumar la API y el front al mismo `docker-compose.yml`. **Hecho:** `docker compose up -d --build` levanta base, API (puerto 8000) y front (puerto 8080).
+- Desde las etapas 6 y 7 el `.env` necesita también `API_DB_PASSWORD` (ver `.env.example`): `db/migrations/009_clave_api.sh` se la pone al rol `bodegas_api` al crear la base. Quien ya tenía el volumen creado tiene que hacer `docker compose down -v` para que corra.
+
+## Docker con API y front: probar en una máquina limpia
+
+**Estado:** pendiente. La API, el front y las pruebas se probaron contra un PostgreSQL 18 local, no dentro de Docker. Falta correr una vez, con el `.env` completo:
+
+```bash
+docker compose down -v
+```
+
+```bash
+docker compose up -d --build
+```
+
+Y verificar que http://localhost:8000/salud responda con `"usuario": "bodegas_api"` y que http://localhost:8080 muestre el catálogo (después de cargar los datos con `db/seed/cargar.py`).

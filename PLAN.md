@@ -157,34 +157,34 @@ Apunte: *JOIN, GROUP BY, HAVING, Subconsultas*.
 
 **[Imprescindible]** (FastAPI genera la documentación Swagger sola)
 
-- [ ] `api/db.py`: la conexión (datos desde `.env`) y una función por consulta.
-- [ ] `api/main.py` con los endpoints básicos:
+- [x] `api/db.py`: la conexión (datos desde `.env`) y una función por consulta.
+- [x] `api/main.py` con los endpoints básicos:
   - `GET /salud`
   - `GET /vinos` (filtros por tipo, cepa, bodega y añada, con paginación) y `GET /vinos/{cod}`
   - `GET` y `POST /clientes`
   - `POST /comprobantes` y `GET /comprobantes/{nro}`
   - transferencias: crear, agregar renglones, terminar y procesar
   - 2 o 3 reportes de la sección 8
-- [ ] Los errores de la base se devuelven con su mensaje: 409 para reglas violadas, 422 para datos inválidos.
+- [x] Los errores de la base se devuelven con su mensaje: 409 para reglas violadas, 422 para datos inválidos.
 
 **[Si da el tiempo]**
 
-- [ ] Resto de los endpoints del enunciado (ingresos, PUT y DELETE de vinos y clientes).
-- [ ] Algunas pruebas automáticas y la demostración de inyección SQL fallida.
-- [ ] API dentro del `docker-compose.yml`.
+- [x] Resto de los endpoints del enunciado (ingresos, PUT y DELETE de vinos y clientes).
+- [x] Algunas pruebas automáticas y la demostración de inyección SQL fallida.
+- [x] API dentro del `docker-compose.yml`.
 
 ## Etapa 7 — Front
 
 **[Imprescindible]** Páginas HTML simples que llaman a la API:
 
-- [ ] Catálogo de vinos con filtros.
-- [ ] Nueva venta, mostrando el error de stock insuficiente que devuelve la base.
-- [ ] Transferencias, con botones para terminar y procesar.
+- [x] Catálogo de vinos con filtros.
+- [x] Nueva venta, mostrando el error de stock insuficiente que devuelve la base.
+- [x] Transferencias, con botones para terminar y procesar.
 
 **[Si da el tiempo]**
 
-- [ ] Alta y edición de vino.
-- [ ] Tablero con el ranking y un gráfico.
+- [x] Alta y edición de vino.
+- [x] Tablero con el ranking y un gráfico.
 
 ## Etapa 8 — Nube
 
@@ -194,8 +194,8 @@ Apunte: *JOIN, GROUP BY, HAVING, Subconsultas*.
 
 **[Imprescindible]**
 
-- [ ] README: cómo crear la base, cargar los datos y levantar la API y el front.
-- [ ] Informe final: juntar los documentos de `docs/`.
+- [x] README: cómo crear la base, cargar los datos y levantar la API y el front.
+- [x] Informe final: juntar los documentos de `docs/` (`docs/00_informe.md`). **Falta:** que el grupo escriba las conclusiones (sección 9).
 - [ ] Preparar el oral con la guía de abajo. Cada integrante tiene que poder explicar **todo**.
 
 ---

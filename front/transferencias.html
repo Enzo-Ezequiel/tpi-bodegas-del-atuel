@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Transferencias · Bodegas del Atuel</title>
+  <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+  <header>
+    <strong>Bodegas del Atuel</strong>
+    <nav>
+      <a href="index.html">Catálogo</a>
+      <a href="vino.html">Alta de vino</a>
+      <a href="venta.html">Nueva venta</a>
+      <a href="transferencias.html" class="activa">Transferencias</a>
+      <a href="tablero.html">Tablero</a>
+    </nav>
+  </header>
+
+  <main>
+    <h1>Transferencias del depósito a las salas</h1>
+    <p class="ayuda">Circuito: <b>en confección</b> (se cargan renglones) → <b>terminado</b> → <b>procesado</b> (el procedimiento mueve el stock). Los botones se habilitan según el estado, pero quien controla de verdad es la base: si se intenta un paso no permitido, muestra su error.</p>
+
+    <div class="columnas">
+      <section class="panel">
+        <div class="fila-form">
+          <label>Estado
+            <select id="filtro-estado">
+              <option value="">Todos</option>
+              <option value="en_confeccion">en_confeccion</option>
+              <option value="terminado">terminado</option>
+              <option value="procesado">procesado</option>
+            </select>
+          </label>
+          <label style="flex: 1 1 220px">Sala para una nueva <select id="sala-nueva"></select></label>
+          <button type="button" id="nueva">Nueva transferencia</button>
+        </div>
+        <div id="lista" class="tabla-scroll" style="margin-top: 12px"></div>
+        <div class="paginas">
+          <button id="anterior" class="secundario">← Anterior</button>
+          <span id="pagina"></span>
+          <button id="siguiente" class="secundario">Siguiente →</button>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div id="detalle"><p class="vacio">Elegí una transferencia o creá una nueva.</p></div>
+        <div id="aviso"></div>
+      </section>
+    </div>
+  </main>
+
+  <script src="js/config.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/transferencias.js"></script>
+</body>
+</html>

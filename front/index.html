@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Catálogo de vinos · Bodegas del Atuel</title>
+  <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+  <header>
+    <strong>Bodegas del Atuel</strong>
+    <nav>
+      <a href="index.html" class="activa">Catálogo</a>
+      <a href="vino.html">Alta de vino</a>
+      <a href="venta.html">Nueva venta</a>
+      <a href="transferencias.html">Transferencias</a>
+      <a href="tablero.html">Tablero</a>
+    </nav>
+  </header>
+
+  <main>
+    <h1>Catálogo de vinos</h1>
+    <p class="ayuda">Los filtros se mandan como parámetros a <code>GET /vinos</code>. Hacé clic en un vino para ver su ficha.</p>
+
+    <form id="filtros" class="panel filtros">
+      <label>Nombre <input name="nombre" placeholder="Parte del nombre"></label>
+      <label>Tipo <select name="tipo"></select></label>
+      <label>Cepa <select name="cepa"></select></label>
+      <label>Bodega <select name="bodega"></select></label>
+      <label>Añada <input name="anada" type="number" min="1900" max="2100" style="width: 100px"></label>
+      <button type="submit">Buscar</button>
+      <button type="reset" class="secundario">Limpiar</button>
+    </form>
+
+    <div id="aviso"></div>
+
+    <div class="columnas">
+      <section class="panel">
+        <div id="lista" class="tabla-scroll"></div>
+        <div class="paginas">
+          <button id="anterior" class="secundario">← Anterior</button>
+          <span id="pagina"></span>
+          <button id="siguiente" class="secundario">Siguiente →</button>
+        </div>
+      </section>
+      <section class="panel" id="ficha">
+        <p class="vacio">Elegí un vino de la lista.</p>
+      </section>
+    </div>
+  </main>
+
+  <script src="js/config.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/catalogo.js"></script>
+</body>
+</html>

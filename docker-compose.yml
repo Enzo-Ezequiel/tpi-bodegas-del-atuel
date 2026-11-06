@@ -1,4 +1,5 @@
-# Por ahora levanta solo la base. La API y el front se agregan en las etapas 6 y 7.
+# Levanta todo con un solo comando:  docker compose up -d --build
+#   base  -> localhost:5433   API -> http://localhost:8000/docs   front -> http://localhost:8080
 services:
   db:
     image: postgres:18
@@ -6,6 +7,8 @@ services:
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      # La usa 009_clave_api.sh para ponerle contraseña al rol bodegas_api
+      API_DB_PASSWORD: ${API_DB_PASSWORD:?Falta API_DB_PASSWORD en el .env}
     ports:
       # 5433 en el host para no chocar con un PostgreSQL instalado en Windows (5432)
       - "${POSTGRES_PORT:-5433}:5432"
@@ -14,10 +17,39 @@ services:
       # Con el volumen vacío, PostgreSQL ejecuta estos archivos en orden alfabético
       - ./db/migrations:/docker-entrypoint-initdb.d:ro
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      # -h 127.0.0.1: mientras corre las migraciones, PostgreSQL solo escucha por
+      # socket interno; por TCP recién responde cuando terminó. Así la API no
+      # arranca con la base a medio crear.
+      test: ["CMD-SHELL", "pg_isready -h 127.0.0.1 -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
       interval: 5s
       timeout: 3s
-      retries: 10
+      retries: 20
+
+  api:
+    build: ./api
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      POSTGRES_DB: ${POSTGRES_DB}
+      # Se conecta con bodegas_api, nunca con postgres
+      API_DB_USER: bodegas_api
+      API_DB_PASSWORD: ${API_DB_PASSWORD}
+      CORS_ORIGINS: http://localhost:8080,http://127.0.0.1:8080
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+
+  front:
+    # El front son archivos estáticos: nginx los sirve tal cual
+    image: nginx:1.27-alpine
+    volumes:
+      - ./front:/usr/share/nginx/html:ro
+    ports:
+      - "8080:80"
+    depends_on:
+      - api
 
 volumes:
   pgdata:

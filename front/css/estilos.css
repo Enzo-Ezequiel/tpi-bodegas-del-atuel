@@ -1,0 +1,126 @@
+/* Estilos comunes a todas las pantallas. El foco del TPI no es el diseno:
+   alcanza con que se lea bien y se entienda que hace cada boton. */
+
+:root {
+  --fondo: #f6f4f2;
+  --panel: #ffffff;
+  --texto: #2a2326;
+  --suave: #6b6166;
+  --linea: #ddd5d8;
+  --vino: #7b1e3c;
+  --vino-claro: #f4e4ea;
+  --ok: #2f6b3a;
+  --ok-claro: #e3f0e4;
+  --error: #a52a2a;
+  --error-claro: #fbe6e4;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--fondo);
+  color: var(--texto);
+  font: 15px/1.5 system-ui, "Segoe UI", sans-serif;
+}
+
+header {
+  background: var(--vino);
+  color: #fff;
+  padding: 12px 24px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 24px;
+}
+header strong { font-size: 1.1rem; }
+nav { display: flex; flex-wrap: wrap; gap: 4px; }
+nav a {
+  color: #fff;
+  text-decoration: none;
+  padding: 4px 10px;
+  border-radius: 6px;
+}
+nav a:hover, nav a.activa { background: rgba(255, 255, 255, 0.18); }
+
+main { max-width: 1150px; margin: 0 auto; padding: 20px 16px 48px; }
+h1 { font-size: 1.5rem; margin: 0 0 4px; }
+h2 { font-size: 1.15rem; margin: 0 0 10px; }
+.ayuda { color: var(--suave); margin: 0 0 18px; }
+
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--linea);
+  border-radius: 10px;
+  padding: 16px;
+  margin-bottom: 16px;
+  min-width: 0;
+}
+.columnas { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); gap: 16px; align-items: start; }
+@media (max-width: 800px) { .columnas { grid-template-columns: minmax(0, 1fr); } }
+
+.filtros, .fila-form { display: flex; flex-wrap: wrap; gap: 10px; align-items: end; }
+label { display: flex; flex-direction: column; gap: 3px; font-size: 0.85rem; color: var(--suave); min-width: 0; max-width: 100%; }
+input, select {
+  font: inherit;
+  color: var(--texto);
+  padding: 6px 8px;
+  border: 1px solid var(--linea);
+  border-radius: 6px;
+  background: #fff;
+  min-width: 0;
+  max-width: 100%;
+}
+.campos { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 10px; }
+
+button {
+  font: inherit;
+  padding: 6px 14px;
+  border-radius: 6px;
+  border: 1px solid var(--vino);
+  background: var(--vino);
+  color: #fff;
+  cursor: pointer;
+}
+a.boton {
+  display: inline-block;
+  padding: 6px 14px;
+  border-radius: 6px;
+  background: var(--vino);
+  color: #fff;
+  text-decoration: none;
+}
+button.secundario { background: #fff; color: var(--vino); }
+button.peligro { background: #fff; color: var(--error); border-color: var(--error); }
+button:disabled { opacity: 0.4; cursor: not-allowed; }
+
+.tabla-scroll { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 0.92rem; }
+th, td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--linea); }
+th { color: var(--suave); font-weight: 600; font-size: 0.8rem; text-transform: uppercase; }
+td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+tr.clic { cursor: pointer; }
+tr.clic:hover { background: var(--vino-claro); }
+tfoot td { font-weight: 600; border-bottom: none; }
+
+.paginas { display: flex; align-items: center; gap: 10px; margin-top: 10px; color: var(--suave); }
+
+.aviso { padding: 10px 12px; border-radius: 8px; margin: 10px 0; }
+.aviso.error { background: var(--error-claro); color: var(--error); border: 1px solid var(--error); }
+.aviso.ok { background: var(--ok-claro); color: var(--ok); border: 1px solid var(--ok); }
+
+.estado { display: inline-block; padding: 1px 8px; border-radius: 999px; font-size: 0.8rem; background: var(--vino-claro); color: var(--vino); }
+.estado.procesado { background: var(--ok-claro); color: var(--ok); }
+
+.datos { display: grid; grid-template-columns: max-content 1fr; gap: 4px 14px; margin: 0 0 12px; }
+.datos dt { color: var(--suave); }
+.datos dd { margin: 0; }
+
+.botones { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.vacio { color: var(--suave); font-style: italic; }
+
+/* Grafico de barras del tablero, hecho con divs */
+.barras { display: flex; flex-direction: column; gap: 6px; }
+.barra { display: grid; grid-template-columns: minmax(0, 220px) minmax(0, 1fr) max-content; gap: 10px; align-items: center; font-size: 0.9rem; }
+.barra .relleno { height: 18px; background: var(--vino); border-radius: 4px; }
+@media (max-width: 600px) { .barra { grid-template-columns: minmax(0, 1fr) max-content; } .barra .pista { grid-column: 1 / -1; grid-row: 2; } }

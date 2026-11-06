@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tablero · Bodegas del Atuel</title>
+  <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+  <header>
+    <strong>Bodegas del Atuel</strong>
+    <nav>
+      <a href="index.html">Catálogo</a>
+      <a href="vino.html">Alta de vino</a>
+      <a href="venta.html">Nueva venta</a>
+      <a href="transferencias.html">Transferencias</a>
+      <a href="tablero.html" class="activa">Tablero</a>
+    </nav>
+  </header>
+
+  <main>
+    <h1>Tablero</h1>
+    <p class="ayuda">Cada bloque es una consulta de la sección 8 expuesta en <code>/reportes</code>.</p>
+    <div id="aviso"></div>
+
+    <section class="panel">
+      <h2>Ventas por sala en el último trimestre <small class="ayuda">(S8 · /reportes/ventas-por-sala)</small></h2>
+      <div id="ventas" class="barras"></div>
+    </section>
+
+    <div class="columnas">
+      <section class="panel">
+        <h2>Los 10 vinos más vendidos <small class="ayuda">(S1 · /reportes/top-vinos)</small></h2>
+        <div id="top" class="tabla-scroll"></div>
+      </section>
+      <section class="panel">
+        <h2>Transportista más activo del último mes <small class="ayuda">(S7)</small></h2>
+        <div id="transportista"></div>
+      </section>
+    </div>
+
+    <section class="panel">
+      <h2>Vinos sin stock en una sala, pero con stock en el depósito <small class="ayuda">(S6 · /reportes/vinos-sin-stock)</small></h2>
+      <label style="max-width: 360px">Sala <select id="sala"></select></label>
+      <div id="sin-stock" class="tabla-scroll" style="margin-top: 10px"></div>
+    </section>
+  </main>
+
+  <script src="js/config.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/tablero.js"></script>
+</body>
+</html>

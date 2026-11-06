@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Nueva venta · Bodegas del Atuel</title>
+  <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+  <header>
+    <strong>Bodegas del Atuel</strong>
+    <nav>
+      <a href="index.html">Catálogo</a>
+      <a href="vino.html">Alta de vino</a>
+      <a href="venta.html" class="activa">Nueva venta</a>
+      <a href="transferencias.html">Transferencias</a>
+      <a href="tablero.html">Tablero</a>
+    </nav>
+  </header>
+
+  <main>
+    <h1>Nueva venta</h1>
+    <p class="ayuda">Esta pantalla solo junta cliente, sala, vinos y cantidades. Precios, descuento, total y stock los calcula la base al confirmar (triggers T1 y T2). Si un vino no tiene stock, la base rechaza la venta entera.</p>
+
+    <div class="columnas">
+      <section class="panel">
+        <h2>1. Cliente y sala</h2>
+        <div class="fila-form">
+          <label>Buscar cliente <input id="buscar-cliente" placeholder="Nombre o razón social"></label>
+          <button type="button" id="boton-buscar" class="secundario">Buscar</button>
+          <label style="flex: 1 1 240px">Cliente <select id="cliente"></select></label>
+        </div>
+        <div class="fila-form" style="margin-top: 10px">
+          <label style="flex: 1 1 240px">Sala <select id="sala"></select></label>
+        </div>
+
+        <h2 style="margin-top: 18px">2. Vinos</h2>
+        <div class="fila-form">
+          <label style="flex: 1 1 260px">Vino (con stock en la sala) <select id="vino"></select></label>
+          <label>Cantidad <input id="cantidad" type="number" min="1" value="1" style="width: 90px"></label>
+          <button type="button" id="agregar" class="secundario">Agregar</button>
+        </div>
+        <div id="renglones" class="tabla-scroll" style="margin-top: 10px"></div>
+
+        <div id="aviso"></div>
+        <div class="botones"><button type="button" id="confirmar">Confirmar venta</button></div>
+      </section>
+
+      <section class="panel" id="comprobante">
+        <h2>Comprobante</h2>
+        <p class="vacio">Acá aparece el comprobante que devuelve la API, con los importes calculados por la base.</p>
+      </section>
+    </div>
+  </main>
+
+  <script src="js/config.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/venta.js"></script>
+</body>
+</html>
