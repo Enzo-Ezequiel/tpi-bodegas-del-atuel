@@ -119,18 +119,45 @@ modo `--chico` carga lo mismo en pequeño (60 clientes, 150 comprobantes,
 ## 6. Tiempos
 
 Carga completa en Docker (PostgreSQL 18) sobre Windows 11: **38,9 s en total**.
-Lo que más tarda:
+Tiempo de inserción de cada tabla, en el orden de carga, como lo imprime el script:
 
-| Paso | Segundos |
-|---|---:|
-| renglon_comprobante (125.135 filas) | 12,3 |
-| importes de ventas (dos `UPDATE` masivos) | 8,0 |
-| comprobante (50.000 filas) | 4,9 |
-| cliente (12.000 filas) | 1,3 |
-| renglon_transferencia (11.992 filas) | 1,0 |
-| cada una de las demás tablas | menos de 1 |
+| Tabla | Filas | Segundos |
+|---|---:|---:|
+| departamento | 18 | 0,05 |
+| localidad | 18 | 0,05 |
+| cepa | 15 | 0,05 |
+| maridaje | 8 | 0,05 |
+| bodega | 10 | 0,05 |
+| transportista | 15 | 0,05 |
+| transportista_localidad | 79 | 0,06 |
+| sala_venta | 30 | 0,05 |
+| empleado | 300 | 0,07 |
+| finca | 40 | 0,05 |
+| parcela | 400 | 0,07 |
+| lote_uva | 1.804 | 0,25 |
+| analisis_calidad | 3.621 | 0,55 |
+| vino | 500 | 0,11 |
+| composicion | 980 | 0,21 |
+| vino_maridaje | 1.008 | 0,09 |
+| cliente | 12.000 | 1,31 |
+| socio | 8.400 | 0,70 |
+| distribuidor | 2.400 | 0,26 |
+| exportador | 1.200 | 0,14 |
+| permiso_exportacion | 4.488 | 0,40 |
+| ingreso | 2.500 | 0,24 |
+| renglon_ingreso | 7.267 | 0,66 |
+| transferencia | 4.000 | 0,44 |
+| renglon_transferencia | 11.992 | 0,99 |
+| comprobante | 50.000 | 4,89 |
+| renglon_comprobante | 125.135 | 12,28 |
+| *(importes de ventas: dos `UPDATE` masivos)* | 50.000 | 7,99 |
+| stock_deposito | 500 | 0,08 |
+| stock_sala | 9.000 | 0,80 |
+| auditoria_precio (aumento de 20 precios) | 20 | 0,05 |
 
-El modo `--chico` tarda 1,7 s.
+El resto del total (unos 6 s) es la generación de los datos en Python: sorteos,
+nombres y direcciones con Faker. Las tablas chicas tardan siempre unos 0,05 s:
+es el costo fijo de cada viaje a la base. El modo `--chico` tarda 1,7 s.
 
 **Medición (`--medir`):** 5.000 filas en una tabla temporal con las columnas de `renglon_comprobante`.
 
@@ -142,6 +169,20 @@ El modo `--chico` tarda 1,7 s.
 `executemany` fue unas 25 veces más rápido. Con un `execute` por fila, cada fila
 es un viaje de ida y vuelta a la base. `executemany` (en psycopg 3, en modo
 *pipeline*) manda las filas seguidas sin esperar cada respuesta.
+
+**Volcado:** con la carga completa se generó `dump_completo.dump` (formato
+custom, `-Fc`, 2,9 MB, con las 30 tablas). No se sube: `*.dump` está en el
+`.gitignore`. El volcado ya trae el esquema y los datos: para recrear la base sin
+correr el script, se crea una base nueva con `CREATE DATABASE` (sin correr las
+migraciones) y se ejecuta `pg_restore -U postgres -d bodegas_atuel dump_completo.dump`.
+
+```powershell
+# PostgreSQL local
+& "C:\Program Files\PostgreSQL\18\bin\pg_dump.exe" -U postgres -d bodegas_atuel -Fc -f dump_completo.dump
+# Docker (se genera adentro del contenedor y se copia, para que PowerShell no altere el binario)
+docker compose exec -T db pg_dump -U postgres -d bodegas_atuel -Fc -f /tmp/dump_completo.dump
+docker cp tpi-bodegas-del-atuel-db-1:/tmp/dump_completo.dump .\dump_completo.dump
+```
 
 ## 7. Resultado de los controles
 
