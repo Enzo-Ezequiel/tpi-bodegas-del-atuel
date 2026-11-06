@@ -131,13 +131,13 @@ Apunte: *Índices en PostgreSQL* (vimos compuesto, parcial y BRIN, y `EXPLAIN`).
 
 **[Imprescindible]**
 
-- [ ] `008_indices.sql`: 5 índices — uno compuesto, uno parcial, uno sobre una clave foránea y uno BRIN sobre fechas. Cada uno con una línea de por qué.
-- [ ] 3 consultas medidas con `EXPLAIN ANALYZE` antes y después, en una tabla de tiempos.
+- [x] `008_indices.sql`: 5 índices — uno compuesto, uno parcial, uno sobre una clave foránea y uno BRIN sobre fechas. Cada uno con una línea de por qué.
+- [x] 3 consultas medidas con `EXPLAIN ANALYZE` antes y después, en una tabla de tiempos.
 
 **[Si da el tiempo]**
 
-- [ ] Un índice descartado y por qué.
-- [ ] Costo de escritura y un caso donde PostgreSQL no usa el índice.
+- [x] Un índice descartado y por qué.
+- [x] Costo de escritura y un caso donde PostgreSQL no usa el índice.
 
 ## Etapa 5 — Consultas SQL
 
@@ -145,13 +145,13 @@ Apunte: *JOIN, GROUP BY, HAVING, Subconsultas*.
 
 **[Imprescindible]**
 
-- [ ] `consultas/update.sql`, `insert.sql`, `delete.sql` y `select.sql`: todas las consignas de la sección 8, cada una con un comentario de 2-3 líneas sobre cómo se pensó.
-- [ ] Resolver con lo que vimos: JOIN, GROUP BY, HAVING, subconsultas, EXISTS / NOT EXISTS.
+- [x] `consultas/update.sql`, `insert.sql`, `delete.sql` y `select.sql`: todas las consignas de la sección 8, cada una con un comentario de 2-3 líneas sobre cómo se pensó.
+- [x] Resolver con lo que vimos: JOIN, GROUP BY, HAVING, subconsultas, EXISTS / NOT EXISTS.
 
 **[Opcional] (no lo vimos)**
 
 - [ ] S10 con CTE (`WITH`) y S11 con funciones de ventana (`RANK() OVER`). Si no, resolverlas con subconsultas y explicar la diferencia.
-- [ ] Probar los UPDATE y DELETE dentro de `BEGIN; … ROLLBACK;`.
+- [x] Probar los UPDATE y DELETE dentro de `BEGIN; … ROLLBACK;`.
 
 ## Etapa 6 — API
 

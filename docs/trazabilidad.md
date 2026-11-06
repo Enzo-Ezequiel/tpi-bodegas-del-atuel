@@ -39,7 +39,7 @@ El criterio para elegir el mecanismo es la guía «¿Dónde va cada regla?» del
 
 ## Límites
 
-Los límites conocidos están en `docs/03_decisiones_de_diseno.md`, sección 7. Al escribir las pruebas apareció uno más, que todavía no está en esa lista:
+Los límites conocidos están en `docs/03_decisiones_de_diseno.md`, sección 7. Al escribir las pruebas apareció uno más, que ya se agregó a esa lista:
 
 - **RN-08: el total del comprobante se puede modificar a mano.** Los triggers recalculan los importes cada vez que se agrega un renglón, pero nada impide un `UPDATE comprobante SET total = …` directo, ni dar de alta un comprobante con un total distinto de 0. Para cerrarlo haría falta un trigger `BEFORE UPDATE` sobre `comprobante` que rechace cambios en los importes que no vengan del trigger T2. Hoy lo cubre que la API no modifique la cabecera.
 
