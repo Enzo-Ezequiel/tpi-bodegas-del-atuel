@@ -4,6 +4,7 @@
 -- Consultas de la seccion 8.2 del enunciado.
 -- Los parametros estan en los \set de abajo: cambiar ahi para probar otros valores.
 -- Como se corre: ver tareas/manuel.md, seccion 3.
+-- Las lineas Resultado son de la carga completa con fecha de referencia 2026-11-06.
 --
 -- Cada sentencia va en BEGIN / control previo / sentencia / control posterior /
 -- ROLLBACK: se ve el antes y el despues, y la base queda igual.
@@ -27,7 +28,9 @@
 -- gana el de menor cod_transporte.
 -- ON CONFLICT DO NOTHING: si ese transportista ya cubria la localidad, el par ya
 -- esta en la tabla y no se inserta nada, en vez de dar error por clave duplicada.
--- Resultado: (pendiente: completar con los datos de Matias) No dispara triggers.
+-- Resultado: 0 filas. El transportista con menos ingresos (cod 9, con 3 en el
+-- trimestre) ya cubria General Alvear, asi que ON CONFLICT DO NOTHING no inserta
+-- nada. No dispara triggers.
 -- -----------------------------------------------------------------------------
 \echo '== I1'
 BEGIN;
@@ -72,7 +75,7 @@ ROLLBACK;
 -- cumpla, y asi se resuelve el "si existe". RETURNING guarda el codigo generado
 -- para usarlo en la segunda, que asocia todos los vinos que cumplen.
 -- Decision: la temperatura de servicio es 16 grados.
--- Resultado: (pendiente: completar con los datos de Matias) No dispara triggers.
+-- Resultado: 1 maridaje y 95 vinos asociados. No dispara triggers.
 -- -----------------------------------------------------------------------------
 \echo '== I2'
 BEGIN;
@@ -111,8 +114,9 @@ ROLLBACK;
 -- T2, que usan fn_stock_sala y fn_total_comprobante. BEGIN ... ROLLBACK es la
 -- transaccion que pide la consigna: si un renglon falla, no queda nada a medias.
 -- El control posterior compara el total guardado con fn_total_comprobante.
--- Resultado: (pendiente: completar con los datos de Matias) Dispara T1 y T2: por
--- cada renglon valida el stock, lo descuenta y recalcula la cabecera.
+-- Resultado: 1 comprobante y 3 renglones. Dispara T1 y T2: por cada renglon valida el
+-- stock, lo descuenta y recalcula la cabecera. El total guardado (41.760) coincide
+-- con fn_total_comprobante.
 -- -----------------------------------------------------------------------------
 \echo '== I3'
 BEGIN;
@@ -155,7 +159,7 @@ ROLLBACK;
 -- Estrategia: INSERT simple. El CUIT lo escribe el usuario porque es una clave
 -- natural; el dominio cuit_dom controla que sean 11 digitos. Es un dato inventado,
 -- por eso aca si hay un CUIT literal.
--- Resultado: (pendiente: completar con los datos de Matias) No dispara triggers.
+-- Resultado: 1 fila. No dispara triggers.
 -- -----------------------------------------------------------------------------
 \echo '== I4'
 BEGIN;
@@ -174,7 +178,7 @@ ROLLBACK;
 -- I5. Insertar una nueva sala de venta.
 -- Estrategia: INSERT con la localidad buscada por nombre con una subconsulta, asi
 -- no queda un codigo suelto. El id_sala lo genera IDENTITY.
--- Resultado: (pendiente: completar con los datos de Matias) No dispara triggers.
+-- Resultado: 1 fila. No dispara triggers.
 -- -----------------------------------------------------------------------------
 \echo '== I5'
 BEGIN;
@@ -206,8 +210,8 @@ ROLLBACK;
 -- guardan con \gset. El ingreso no indica el estado: nace en_confeccion por el
 -- DEFAULT. El transportista es el de menor cod_transporte.
 -- El stock del deposito no cambia: solo impacta al procesarlo (RN-10).
--- Resultado: (pendiente: completar con los datos de Matias) Dispara el trigger T4
--- de renglones, que lo deja pasar porque el ingreso esta en confeccion.
+-- Resultado: 1 ingreso y 1 renglon. Dispara el trigger T4 de renglones, que lo deja
+-- pasar porque el ingreso esta en confeccion. El deposito sigue en 889 botellas.
 -- -----------------------------------------------------------------------------
 \echo '== I6'
 BEGIN;

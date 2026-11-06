@@ -4,6 +4,7 @@
 -- Consultas de la seccion 8.3 del enunciado.
 -- Los parametros estan en los \set de abajo: cambiar ahi para probar otros valores.
 -- Como se corre: ver tareas/manuel.md, seccion 3.
+-- Las lineas Resultado son de la carga completa con fecha de referencia 2026-11-06.
 --
 -- Cada sentencia va en BEGIN / control previo / sentencia / control posterior /
 -- ROLLBACK: se ve el antes y el despues, y la base queda igual.
@@ -20,8 +21,8 @@
 -- por ON DELETE CASCADE: un renglon no existe sin su comprobante. Los dos
 -- controles cuentan los renglones para que se vea la cascada.
 -- Limite conocido: borrar una venta no devuelve el stock (docs/03, seccion 7).
--- Resultado: (pendiente: completar con los datos de Matias) Cascada sobre
--- renglon_comprobante. No dispara triggers: T1 y T2 son de INSERT.
+-- Resultado: 4.908 comprobantes. Cascada sobre renglon_comprobante: se borran 12.303
+-- renglones (de 125.135 a 112.832). No dispara triggers: T1 y T2 son de INSERT.
 -- -----------------------------------------------------------------------------
 \echo '== D1'
 BEGIN;
@@ -54,7 +55,7 @@ ROLLBACK;
 --     ninguna parcela.
 -- Estrategia: doble NOT EXISTS: la cepa no aparece en composicion y tampoco en
 -- parcela. Las dos FK son RESTRICT, asi que con cualquier otra cepa daria error.
--- Resultado: (pendiente: completar con los datos de Matias) No dispara triggers.
+-- Resultado: 3 cepas: Petit Verdot, Viognier y Pinot Gris. No dispara triggers.
 -- -----------------------------------------------------------------------------
 \echo '== D2'
 BEGIN;
@@ -83,7 +84,7 @@ ROLLBACK;
 -- Estrategia: subconsulta con las salas de la localidad, buscada por nombre, y
 -- fn_antiguedad_anios para la antiguedad, que no se guarda porque cambia todos
 -- los dias. Cuenta anios completos: < 2 son 0 o 1 anio.
--- Resultado: (pendiente: completar con los datos de Matias) No dispara triggers.
+-- Resultado: 2 empleados. No dispara triggers.
 -- -----------------------------------------------------------------------------
 \echo '== D3'
 BEGIN;
@@ -121,8 +122,8 @@ ROLLBACK;
 -- Estrategia: NOT EXISTS para "nunca compraron". Se borra en cliente: la fila de
 -- socio se va en cascada, porque el subtipo es parte del cliente. Si tuviera
 -- comprobantes la FK no lo dejaria (RESTRICT), pero el NOT EXISTS ya los excluye.
--- Resultado: (pendiente: completar con los datos de Matias) Cascada sobre socio.
--- No dispara triggers.
+-- Resultado: 214 clientes. Cascada sobre socio (de 8.400 a 8.186). No dispara
+-- triggers.
 -- -----------------------------------------------------------------------------
 \echo '== D4'
 BEGIN;
@@ -152,8 +153,8 @@ ROLLBACK;
 -- en cascada. El trigger T4 bloquea tocar renglones de un documento procesado,
 -- pero cuando se borra el ingreso entero lo deja pasar: al llegar al renglon, la
 -- cabecera ya no existe. El stock del deposito no cambia.
--- Resultado: (pendiente: completar con los datos de Matias) Cascada sobre
--- renglon_ingreso. Dispara el trigger T4, que no lo impide.
+-- Resultado: 2.104 ingresos. Cascada sobre renglon_ingreso: se borran 6.097 renglones
+-- (de 7.267 a 1.170). Dispara el trigger T4, que no lo impide.
 -- -----------------------------------------------------------------------------
 \echo '== D5'
 BEGIN;
@@ -185,8 +186,7 @@ ROLLBACK;
 -- D6. Borrar los clientes socios sin compras que viven en una localidad
 --     especifica.
 -- Estrategia: igual que D4, pero el filtro es la localidad, buscada por nombre.
--- Resultado: (pendiente: completar con los datos de Matias) Cascada sobre socio.
--- No dispara triggers.
+-- Resultado: 70 clientes. Cascada sobre socio. No dispara triggers.
 -- -----------------------------------------------------------------------------
 \echo '== D6'
 BEGIN;

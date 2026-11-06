@@ -4,6 +4,7 @@
 -- Consultas de la seccion 8.1 del enunciado.
 -- Los parametros estan en los \set de abajo: cambiar ahi para probar otros valores.
 -- Como se corre: ver tareas/manuel.md, seccion 3.
+-- Las lineas Resultado son de la carga completa con fecha de referencia 2026-11-06.
 --
 -- Cada sentencia va en BEGIN / control previo / sentencia / control posterior /
 -- ROLLBACK: se ve el antes y el despues, y la base queda igual.
@@ -24,8 +25,9 @@
 -- las columnas todavia tienen el valor viejo.
 -- Decision: la cabecera solo se actualiza si tiene renglones. Un comprobante sin
 -- renglones daria SUM = NULL y chocaria con el NOT NULL de subtotal y descuento.
--- Resultado: (pendiente: completar con los datos de Matias) No dispara triggers:
--- T1 y T2 son de INSERT, no de UPDATE.
+-- Resultado: 125.135 renglones y 50.000 comprobantes actualizados. Ningun importe
+-- cambia: la carga ya tenia el descuento de cada tipo de cliente. No dispara
+-- triggers: T1 y T2 son de INSERT, no de UPDATE.
 -- -----------------------------------------------------------------------------
 \echo '== U1'
 BEGIN;
@@ -71,7 +73,7 @@ ROLLBACK;
 --     antiguedad.
 -- Estrategia: la antiguedad no se guarda porque cambia todos los dias: la calcula
 -- fn_antiguedad_anios. Cuenta anios completos, asi que > 5 son 6 anios o mas.
--- Resultado: (pendiente: completar con los datos de Matias) No dispara triggers.
+-- Resultado: 200 empleados. No dispara triggers.
 -- -----------------------------------------------------------------------------
 \echo '== U2'
 BEGIN;
@@ -103,8 +105,7 @@ ROLLBACK;
 -- el precio con dos decimales.
 -- En auditoria_precio se filtra por fecha_hora = now(): dentro de una transaccion
 -- now() no cambia, asi que son justo las filas que escribio este UPDATE.
--- Resultado: (pendiente: completar con los datos de Matias) Dispara el trigger
--- T6: agrega una fila en auditoria_precio por cada vino.
+-- Resultado: 3 vinos. Dispara el trigger T6: agrega 3 filas en auditoria_precio.
 -- -----------------------------------------------------------------------------
 \echo '== U3'
 BEGIN;
@@ -139,7 +140,7 @@ ROLLBACK;
 -- los miercoles originales. El WHERE deja afuera a las demas salas.
 -- ::dia_semana hace falta porque, sin el tipo, el CASE devuelve texto y una
 -- columna ENUM no acepta texto.
--- Resultado: (pendiente: completar con los datos de Matias) No dispara triggers.
+-- Resultado: 9 salas (5 pasan a miercoles y 4 a lunes). No dispara triggers.
 -- -----------------------------------------------------------------------------
 \echo '== U4'
 BEGIN;
@@ -171,8 +172,7 @@ ROLLBACK;
 -- para contar a los que nunca se vendieron: con un JOIN comun no aparecerian,
 -- y son justamente los menos vendidos. COALESCE convierte su suma NULL en 0, y
 -- cod_vino desempata para que siempre sean los mismos 10.
--- Resultado: (pendiente: completar con los datos de Matias) Dispara el trigger
--- T6: agrega una fila en auditoria_precio por cada vino.
+-- Resultado: 10 vinos. Dispara el trigger T6: agrega 10 filas en auditoria_precio.
 -- -----------------------------------------------------------------------------
 \echo '== U5'
 BEGIN;
@@ -215,8 +215,8 @@ ROLLBACK;
 -- falta filtrar por tipo: permiso_exportacion apunta a exportador, asi que ahi
 -- solo hay exportadores. El descuento es una columna de cliente porque no es fijo
 -- por tipo, justamente por esta consigna.
--- Resultado: (pendiente: completar con los datos de Matias) No dispara triggers:
--- T8 es de INSERT. El 35 esta dentro del rango de porcentaje_dom.
+-- Resultado: 704 clientes. No dispara triggers: T8 es de INSERT. El 35 esta dentro
+-- del rango de porcentaje_dom.
 -- -----------------------------------------------------------------------------
 \echo '== U6'
 BEGIN;
