@@ -40,7 +40,7 @@ from psycopg.pq import TransactionStatus
 CARPETA = Path(__file__).resolve().parent
 CATALOGOS = CARPETA / 'catalogos'
 
-# Volumenes de la seccion 4.3 de tareas/matias.md (columnas «Completo» y «Chico»)
+# Volumenes de los dos modos (detalle en docs/carga.md, seccion 5)
 VOLUMENES = {
     'completo': dict(bodegas=10, transportistas=15, cobertura=(3, 8), salas=30,
                      dias_cierre_min=3, empleados=300, fincas=40, parcelas_por_finca=10,
@@ -56,7 +56,7 @@ VOLUMENES = {
                   aumentos_precio=3),
 }
 
-# Valores fijos que usan las consultas de Manuel y la API de Ezequiel (seccion 5)
+# Valores fijos que usan las consultas de la etapa 5 y la API
 BODEGA_TRES_VINOS = 'Bodega Los Tres Vinos'
 VINO_FIJO = 'Malbec Reserva'
 LOCALIDAD_SAN_RAFAEL = 'San Rafael'
@@ -68,7 +68,7 @@ DIAS = ['lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado', 'domingo'
 PAISES = ['Brasil', 'Chile', 'Estados Unidos', 'China', 'Reino Unido', 'Canadá', 'Países Bajos']
 ESTADOS = ['en_confeccion', 'terminado', 'procesado']
 
-# Tablas cuyos triggers se apagan durante la carga de la historia (seccion 4.6)
+# Tablas cuyos triggers se apagan durante la carga de la historia (docs/carga.md, seccion 3)
 TABLAS_SIN_TRIGGERS = ['ingreso', 'renglon_ingreso', 'transferencia',
                        'renglon_transferencia', 'renglon_comprobante']
 

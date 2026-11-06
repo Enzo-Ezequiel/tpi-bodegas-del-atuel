@@ -114,16 +114,16 @@ Apuntes: *Reglas de integridad*, *Funciones, Procedimientos y Triggers*, *Vistas
 
 **[Imprescindible]**
 
-- [ ] CSV con los catálogos reales del anexo B: cepas, maridajes, departamentos y localidades de Mendoza.
-- [ ] Un script de Python (`db/seed/cargar.py`) con semilla fija, que genere los datos con Faker y `random`.
-- [ ] Volúmenes **mínimos** del enunciado, no los recomendados: todas las tablas con al menos una fila, 3 tablas con más de 10.000 y una con más de 100.000 (renglones de comprobante, unos 120.000).
-- [ ] Cargar el historial con los triggers deshabilitados y volver a habilitarlos. Explicar en 3 líneas por qué.
-- [ ] Consultas de control: conteo por tabla, stock negativo y totales que no coinciden con los renglones.
+- [x] CSV con los catálogos reales del anexo B: cepas, maridajes, departamentos y localidades de Mendoza.
+- [x] Un script de Python (`db/seed/cargar.py`) con semilla fija, que genere los datos con Faker y `random`.
+- [x] Volúmenes **mínimos** del enunciado, no los recomendados: todas las tablas con al menos una fila, 3 tablas con más de 10.000 y una con más de 100.000 (renglones de comprobante, unos 120.000).
+- [x] Cargar el historial con los triggers deshabilitados y volver a habilitarlos. Explicar en 3 líneas por qué.
+- [x] Consultas de control: conteo por tabla, stock negativo y totales que no coinciden con los renglones.
 
 **[Si da el tiempo]**
 
-- [ ] Medir una vez fila por fila contra por lotes y anotar los dos tiempos.
-- [ ] Volcado con `pg_dump`.
+- [x] Medir una vez fila por fila contra por lotes y anotar los dos tiempos.
+- [x] Volcado con `pg_dump`.
 
 ## Etapa 4 — Índices
 

@@ -3,7 +3,7 @@
 -- TPI Bases de Datos - Bodegas del Atuel
 -- Consultas de la seccion 8.2 del enunciado.
 -- Los parametros estan en los \set de abajo: cambiar ahi para probar otros valores.
--- Como se corre: ver tareas/manuel.md, seccion 3.
+-- Como se corre: con la carga de la etapa 3 hecha, psql -U postgres -d bodegas_atuel -f consultas/insert.sql
 -- Las lineas Resultado son de la carga completa con fecha de referencia 2026-11-06.
 --
 -- Cada sentencia va en BEGIN / control previo / sentencia / control posterior /

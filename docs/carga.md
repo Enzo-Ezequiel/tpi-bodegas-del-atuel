@@ -205,7 +205,7 @@ sin uso (D2), socios sin compras viejos (D4) y de San Rafael (D6), etc.
 
 ## Decisiones extra
 
-Lo que la especificación no resolvía, resuelto con la opción más simple:
+Lo que el enunciado no resolvía, resuelto con la opción más simple:
 
 1. **`--medir` corre solo:** no carga datos ni exige la base vacía. Usa una tabla
    temporal (`CREATE TEMP TABLE … (LIKE renglon_comprobante)`) y termina con

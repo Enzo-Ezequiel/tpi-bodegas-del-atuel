@@ -18,7 +18,7 @@
 | **S8** | 11,00 ms | **6,62 ms** | Seq Scan | Bitmap Heap Scan (BRIN) | 50.000 → 17.318 | 790 → 155 |
 | S4 | 0,40 ms | 0,47 ms | Index Scan (PK) | Bitmap Heap Scan (FK) | sin cambios | 106 → 57 |
 
-**Mejoraron 3 consultas: S3, S5 y S8.** S5 reemplaza a S4 en esa cuenta, como prevé la especificación.
+**Mejoraron 3 consultas: S3, S5 y S8.** S5 reemplaza a S4 en esa cuenta.
 
 **S4 no mejoró en tiempo.** Usa el índice y lee casi la mitad de bloques, pero ya tardaba menos de 1 ms: la diferencia es ruido de la medición. La fecha ya deja solo 32 transferencias y la PK encontraba rápido sus renglones.
 
