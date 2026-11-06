@@ -222,8 +222,8 @@ SELECT l.id_finca, l.nro_parcela, l.campania,
 -- Estrategia: x tiene las botellas por sala y vino. El puesto es 1 + la cantidad
 -- de vinos de esa misma sala que vendieron mas (subconsulta correlacionada). Dos
 -- vinos empatados quedan en el mismo puesto. Se muestran los 5 primeros por sala.
--- Costo: recalcula las ventas de la sala por cada fila de x. Con unos 120.000
--- renglones simulados tardo 1 minuto y 37 segundos; las demas, menos de 1 segundo.
+-- Costo: recalcula las ventas de la sala por cada fila de x. Con los 125.135
+-- renglones de la carga tarda entre 2 y 3 minutos, y los indices no la mejoran.
 -- -----------------------------------------------------------------------------
 \echo '== S11a'
 SELECT t.id_sala, t.puesto, t.cod_vino, v.nombre, t.botellas
